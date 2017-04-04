@@ -243,6 +243,26 @@ public class WalletSetup {
         return false;
     }
 
+    public boolean isCurrencyTypeSupported(CurrencyType currencyType) {
+
+        if(currencyType == null){
+            return false;
+        }
+
+        if(!Utils.isEmpty(availableRateValues)){
+            parseAvailableRates();
+            if(Utils.isEmpty(availableRates)){
+                return false;
+            }
+            for (CurrencyType ct : availableRates) {
+                if (ct.getId() == currencyType.getId()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     public List<TransactionType> parseAvailableCards() {
         if(!Utils.isEmpty(availableCardValues)){

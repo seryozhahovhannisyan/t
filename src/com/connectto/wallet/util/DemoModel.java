@@ -82,4 +82,17 @@ public class DemoModel {
         return rate;
     }
 
+    public static synchronized ExchangeRate initExchangeRate(CurrencyType toCurrencyType) {
+        ExchangeRate rate = new ExchangeRate();
+        rate.setOneCurrency(CurrencyType.USD);
+        rate.setToCurrency(toCurrencyType);
+        rate.setBuy(480d);
+        rate.setSell(1/480d);
+        rate.setUpdatedDate(new Date(System.currentTimeMillis()));
+        rate.setId(452149L);
+        return rate;
+    }
+
+
+
 }

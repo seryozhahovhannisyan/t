@@ -12,6 +12,10 @@ public class TransactionSendMoneyProcess {
     //Many to one
     private Long walletId;
     private Wallet wallet;
+    //100 EUR
+    private Double value;
+    private CurrencyType valueCurrencyType;
+    private TransactionSendMoneyExchange valueExchange;
     //100
     private Double amount;
     //121
