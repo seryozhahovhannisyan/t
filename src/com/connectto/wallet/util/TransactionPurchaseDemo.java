@@ -9,6 +9,8 @@ import com.connectto.wallet.model.wallet.ExchangeRate;
 import com.connectto.wallet.model.wallet.Wallet;
 import com.connectto.wallet.model.wallet.lcp.CurrencyType;
 import com.connectto.wallet.model.wallet.lcp.TransactionState;
+import com.connectto.wallet.util.currency.TransactionCurrencyEqual;
+import com.connectto.wallet.util.currency.TransactionCurrencyOther;
 
 import java.util.Date;
 

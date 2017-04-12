@@ -3,14 +3,17 @@ package com.connectto.wallet.util;
 import com.connectto.general.exception.InternalErrorException;
 import com.connectto.general.exception.InvalidParameterException;
 import com.connectto.general.exception.PermissionDeniedException;
+import com.connectto.general.exception.UnsupportedCurrencyException;
 import com.connectto.general.model.WalletSetup;
 import com.connectto.wallet.model.transaction.sendmoney.TransactionSendMoney;
-import com.connectto.wallet.model.transaction.sendmoney.TransactionSendMoneyExchange;
 import com.connectto.wallet.model.wallet.ExchangeRate;
 import com.connectto.wallet.model.wallet.Wallet;
 import com.connectto.wallet.model.wallet.lcp.CurrencyType;
 import com.connectto.wallet.model.wallet.lcp.TransactionState;
 import com.connectto.wallet.model.wallet.lcp.TransactionType;
+import com.connectto.wallet.util.currency.TransactionCurrencyConvert;
+import com.connectto.wallet.util.currency.TransactionCurrencyEqual;
+import com.connectto.wallet.util.currency.TransactionCurrencyOther;
 
 import java.util.Date;
 
@@ -30,7 +33,7 @@ public class TransactionSendMoneyDemo {
             Double productAmount,
             CurrencyType productCurrencyType,
             CurrencyType from, CurrencyType to, CurrencyType setup
-    ) throws InvalidParameterException, PermissionDeniedException, InternalErrorException {
+    ) throws InvalidParameterException, PermissionDeniedException, InternalErrorException, UnsupportedCurrencyException {
 
         Wallet fromWallet = DemoModel.initWallet(from, "4");
         Wallet toWallet = DemoModel.initWallet(to, "14");
@@ -46,7 +49,7 @@ public class TransactionSendMoneyDemo {
     protected static TransactionSendMoney createTransaction(
             Double productAmount, CurrencyType productCurrencyType,
             Wallet fromWallet, Wallet toWallet, WalletSetup walletSetup
-    ) throws InternalErrorException, PermissionDeniedException {
+    ) throws InternalErrorException, PermissionDeniedException, UnsupportedCurrencyException {
 
         //<editor-fold desc="initBlock">
         Date currentDate = new Date(System.currentTimeMillis());
@@ -113,7 +116,32 @@ public class TransactionSendMoneyDemo {
 
             ExchangeRate rate = DemoModel.initExchangeRate(productCurrencyType);
             Double rateAmount = rate.getBuy();
-            Double amount = productAmount * rateAmount;
+            Double amount = productAmount / rateAmount;
+
+            if(fromCurrencyTypeId == setupCurrencyTypeId){
+                TransactionCurrencyEqual.equalCurrencyTransfer(transaction, null, currentDate, fromWallet, walletSetup, productAmount);
+            } else {
+                if (productCurrencyTypeId == fromCurrencyTypeId) {
+                    TransactionCurrencyConvert.otherSetupCurrencyTransfer(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, productAmount);
+                } else {
+                    throw new UnsupportedCurrencyException("");
+//                TransactionCurrencyUnknown.otherWalletCurrencyTransfer(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, productAmount);
+                }
+            }
+
+
+            if(toCurrencyTypeId == setupCurrencyTypeId){
+                TransactionCurrencyEqual.equalCurrencyReceiver(transaction, null, currentDate, toWallet, walletSetup, amount);
+            } else {
+                if (productCurrencyTypeId == toCurrencyTypeId) {
+                    TransactionCurrencyConvert.otherSetupCurrencyReceiver(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, productAmount);
+                } else {
+                    throw new UnsupportedCurrencyException("");
+//                TransactionCurrencyUnknown.otherWalletCurrencyReceiver(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, productAmount);
+                }
+            }
+
+
 
         }
 

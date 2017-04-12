@@ -1,4 +1,4 @@
-package com.connectto.wallet.util;
+package com.connectto.wallet.util.currency;
 
 import com.connectto.general.exception.InternalErrorException;
 import com.connectto.general.model.WalletSetup;
@@ -9,6 +9,8 @@ import com.connectto.wallet.model.wallet.Wallet;
 import com.connectto.wallet.model.wallet.lcp.CurrencyType;
 import com.connectto.wallet.model.wallet.lcp.TransactionState;
 import com.connectto.wallet.model.wallet.lcp.TransactionTaxType;
+import com.connectto.wallet.util.Constant;
+import com.connectto.wallet.util.TaxCalculator;
 
 import java.util.Date;
 import java.util.Map;
