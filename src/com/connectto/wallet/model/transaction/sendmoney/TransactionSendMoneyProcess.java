@@ -26,7 +26,7 @@ public class TransactionSendMoneyProcess {
     private Double exchangeTaxAmount;
     //21
     private Double totalTaxAmount;
-
+    //USD
     private CurrencyType setupCurrencyType;
 
     //100*480=48000
@@ -39,7 +39,7 @@ public class TransactionSendMoneyProcess {
     private Double exchangeTaxPrice;
     //21=10080
     private Double totalTaxPrice;
-
+    //AMD
     private CurrencyType walletCurrencyType;
 
     private TransactionSendMoneyProcessTax processTax;
@@ -74,6 +74,28 @@ public class TransactionSendMoneyProcess {
                                        Double price, Double processTaxPrice, CurrencyType walletCurrencyType,
                                        TransactionSendMoneyProcessTax processTax, TransactionSendMoneyExchange exchange) {
         this.walletId = walletId;
+        this.amount = amount;
+        this.processTaxAmount = processTaxAmount;
+        this.setupCurrencyType = setupCurrencyType;
+        this.price = price;
+        this.processTaxPrice = processTaxPrice;
+        this.walletCurrencyType = walletCurrencyType;
+        this.processTax = processTax;
+        this.exchange = exchange;
+    }
+
+    public TransactionSendMoneyProcess(Long walletId,
+                                       Double value, CurrencyType valueCurrencyType, TransactionSendMoneyExchange valueExchange,
+                                       Double amount, Double processTaxAmount, CurrencyType setupCurrencyType,
+                                       Double price, Double processTaxPrice, CurrencyType walletCurrencyType,
+                                       TransactionSendMoneyProcessTax processTax, TransactionSendMoneyExchange exchange) {
+
+        this.walletId = walletId;
+
+        this.value = value;
+        this.valueCurrencyType = valueCurrencyType;
+        this.valueExchange = valueExchange;
+
         this.amount = amount;
         this.processTaxAmount = processTaxAmount;
         this.setupCurrencyType = setupCurrencyType;
@@ -142,6 +164,30 @@ public class TransactionSendMoneyProcess {
 
     public void setWallet(Wallet wallet) {
         this.wallet = wallet;
+    }
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
+    }
+
+    public CurrencyType getValueCurrencyType() {
+        return valueCurrencyType;
+    }
+
+    public void setValueCurrencyType(CurrencyType valueCurrencyType) {
+        this.valueCurrencyType = valueCurrencyType;
+    }
+
+    public TransactionSendMoneyExchange getValueExchange() {
+        return valueExchange;
+    }
+
+    public void setValueExchange(TransactionSendMoneyExchange valueExchange) {
+        this.valueExchange = valueExchange;
     }
 
     public Double getAmount() {
@@ -254,6 +300,22 @@ public class TransactionSendMoneyProcess {
 
     public void setProcessTaxId(Long processTaxId) {
         this.processTaxId = processTaxId;
+    }
+
+    public TransactionSendMoneyExchange getExchange() {
+        return exchange;
+    }
+
+    public void setExchange(TransactionSendMoneyExchange exchange) {
+        this.exchange = exchange;
+    }
+
+    public Long getExchangeId() {
+        return exchangeId;
+    }
+
+    public void setExchangeId(Long exchangeId) {
+        this.exchangeId = exchangeId;
     }
 
     public TransactionSendMoneyExchangeTax getExchangeTax() {

@@ -14,6 +14,7 @@ import com.connectto.wallet.model.wallet.lcp.TransactionType;
 import com.connectto.wallet.util.currency.TransactionCurrencyConvert;
 import com.connectto.wallet.util.currency.TransactionCurrencyEqual;
 import com.connectto.wallet.util.currency.TransactionCurrencyOther;
+import com.connectto.wallet.util.currency.TransactionCurrencyUnknown;
 
 import java.util.Date;
 
@@ -114,23 +115,27 @@ public class TransactionSendMoneyDemo {
 
         } else {
 
-            ExchangeRate rate = DemoModel.initExchangeRate(productCurrencyType);
-            Double rateAmount = rate.getBuy();
-            Double amount = productAmount / rateAmount;
 
-            if(fromCurrencyTypeId == setupCurrencyTypeId){
+            if (fromCurrencyTypeId == setupCurrencyTypeId) {
                 TransactionCurrencyEqual.equalCurrencyTransfer(transaction, null, currentDate, fromWallet, walletSetup, productAmount);
             } else {
                 if (productCurrencyTypeId == fromCurrencyTypeId) {
                     TransactionCurrencyConvert.otherSetupCurrencyTransfer(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, productAmount);
                 } else {
-                    throw new UnsupportedCurrencyException("");
+                    ExchangeRate rate = DemoModel.initExchangeRate(productCurrencyType, 56d);
+                    Double rateAmount = rate.getBuy();
+                    Double amount = productAmount / rateAmount;
+                    TransactionCurrencyUnknown.unknownCurrencyTransfer(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, amount, productAmount, productCurrencyType, rate);
+                    //throw new UnsupportedCurrencyException("");
 //                TransactionCurrencyUnknown.otherWalletCurrencyTransfer(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, productAmount);
                 }
             }
 
 
-            if(toCurrencyTypeId == setupCurrencyTypeId){
+            if (toCurrencyTypeId == setupCurrencyTypeId) {
+                ExchangeRate rate = productCurrencyTypeId == CurrencyType.RUB.getId() ? DemoModel.initExchangeRate(productCurrencyType, 56d) : selectedExchangeRate;
+                Double rateAmount = rate.getBuy();
+                Double amount = productAmount / rateAmount;
                 TransactionCurrencyEqual.equalCurrencyReceiver(transaction, null, currentDate, toWallet, walletSetup, amount);
             } else {
                 if (productCurrencyTypeId == toCurrencyTypeId) {
@@ -140,7 +145,6 @@ public class TransactionSendMoneyDemo {
 //                TransactionCurrencyUnknown.otherWalletCurrencyReceiver(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, productAmount);
                 }
             }
-
 
 
         }

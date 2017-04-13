@@ -93,6 +93,17 @@ public class DemoModel {
         return rate;
     }
 
+    public static synchronized ExchangeRate initExchangeRate(CurrencyType toCurrencyType, Double buy) {
+        ExchangeRate rate = new ExchangeRate();
+        rate.setOneCurrency(CurrencyType.USD);
+        rate.setToCurrency(toCurrencyType);
+        rate.setBuy(buy);
+        rate.setSell(1/buy);
+        rate.setUpdatedDate(new Date(System.currentTimeMillis()));
+        rate.setId(452149L);
+        return rate;
+    }
+
 
 
 }
