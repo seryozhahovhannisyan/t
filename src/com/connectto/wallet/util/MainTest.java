@@ -19,10 +19,14 @@ public class MainTest {
 //        TransactionSendMoney sendMoney = TransactionSendMoneyDemo.initDemoTransactionSendMoney(100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
 //        TransactionPurchase purchase = TransactionPurchaseDemo.initTransaction(100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
 //        print(sendMoney, purchase);
-
+        //                                                                    Double  product,  productCurrencyType,  from,        CurrencyType to, CurrencyType setup
         TransactionSendMoney one =  TransactionSendMoneyDemo.initDemoTransactionSendMoney(100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
         TransactionSendMoney from = TransactionSendMoneyDemo.initDemoTransactionSendMoney(100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
-        TransactionSendMoney to = TransactionSendMoneyDemo.initDemoTransactionSendMoney(100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
+        TransactionSendMoney to =   TransactionSendMoneyDemo.initDemoTransactionSendMoney(100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
+
+        TransactionSendMoney one1 =  TransactionSendMoneyDemo.initDemoTransactionSendMoney(48000d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
+        TransactionSendMoney from1 = TransactionSendMoneyDemo.initDemoTransactionSendMoney(48000d, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
+        TransactionSendMoney to1 =   TransactionSendMoneyDemo.initDemoTransactionSendMoney(48000d, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
 
         System.out.println("one 100d, p=CurrencyType.USD, f=CurrencyType.USD, t=CurrencyType.USD, s=CurrencyType.USD");
         System.out.println("one  " + one.getFromTransactionProcess());
