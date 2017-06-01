@@ -115,7 +115,6 @@ public class TransactionRequestDemo {
 
         } else {
 
-
             if (fromCurrencyTypeId == setupCurrencyTypeId) {
                 TransactionCurrencyEqual.equalCurrencyTransfer(transaction, null, currentDate, fromWallet, walletSetup, productAmount);
             } else {

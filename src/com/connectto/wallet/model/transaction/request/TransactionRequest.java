@@ -314,7 +314,7 @@ public class TransactionRequest {
 //                ", state=" + state +
 //                ", openedAt=" + openedAt +
 //                ", closedAt=" + closedAt +
-                ", productAmount=" + productAmount +
+                ",   productAmount=" + productAmount +
                 ", productCurrencyType=" + productCurrencyType +
                 ", fromTotal=" + fromTotal +
                 ", fromTotalPrice=" + fromTotalPrice +

@@ -9,8 +9,10 @@ import com.connectto.wallet.model.wallet.ExchangeRate;
 import com.connectto.wallet.model.wallet.Wallet;
 import com.connectto.wallet.model.wallet.lcp.CurrencyType;
 import com.connectto.wallet.model.wallet.lcp.TransactionState;
+import com.connectto.wallet.util.currency.TransactionCurrencyConvert;
 import com.connectto.wallet.util.currency.TransactionCurrencyEqual;
 import com.connectto.wallet.util.currency.TransactionCurrencyOther;
+import com.connectto.wallet.util.currency.TransactionCurrencyUnknown;
 
 import java.util.Date;
 
@@ -88,6 +90,27 @@ public class TransactionPurchaseDemo {
                 throw new PermissionDeniedException(msgUnsupported + purchaseCurrencyType);
             }
             //</editor-fold>
+
+            if (walletCurrencyTypeId == setupCurrencyTypeId) {
+
+                ExchangeRate rate = purchaseCurrencyTypeId == CurrencyType.RUB.getId() ? DemoModel.initExchangeRate(purchaseCurrencyType, 56d) : selectedExchangeRate;
+                Double rateAmount = rate.getBuy();
+                Double amount = purchaseAmount / rateAmount;
+
+                TransactionCurrencyEqual.equalCurrencyTransfer(transactionPurchase, null, currentDate, wallet, walletSetup, amount);
+            } else {
+
+                if (purchaseCurrencyTypeId == walletCurrencyTypeId) {
+                    TransactionCurrencyConvert.otherSetupCurrencyTransfer(transactionPurchase, null, currentDate, selectedExchangeRate, wallet, walletSetup, purchaseAmount);
+                } else {
+                    ExchangeRate rate = DemoModel.initExchangeRate(purchaseCurrencyType, 56d);
+                    Double rateAmount = rate.getBuy();
+                    Double amount = purchaseAmount / rateAmount;
+                    TransactionCurrencyUnknown.unknownCurrencyTransfer(transactionPurchase, null, currentDate, selectedExchangeRate, wallet, walletSetup, amount, purchaseAmount, purchaseCurrencyType, rate);
+                    //throw new UnsupportedCurrencyException("");
+    //                TransactionCurrencyUnknown.otherWalletCurrencyTransfer(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, productAmount);
+                }
+            }
         }
         return transactionPurchase;
     }

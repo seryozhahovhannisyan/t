@@ -117,7 +117,12 @@ public class TransactionSendMoneyDemo {
 
 
             if (fromCurrencyTypeId == setupCurrencyTypeId) {
-                TransactionCurrencyEqual.equalCurrencyTransfer(transaction, null, currentDate, fromWallet, walletSetup, productAmount);
+
+                ExchangeRate rate = productCurrencyTypeId == CurrencyType.RUB.getId() ? DemoModel.initExchangeRate(productCurrencyType, 56d) : selectedExchangeRate;
+                Double rateAmount = rate.getBuy();
+                Double amount = productAmount / rateAmount;
+
+                TransactionCurrencyEqual.equalCurrencyTransfer(transaction, null, currentDate, fromWallet, walletSetup, amount);
             } else {
                 if (productCurrencyTypeId == fromCurrencyTypeId) {
                     TransactionCurrencyConvert.otherSetupCurrencyTransfer(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, productAmount);
@@ -130,7 +135,6 @@ public class TransactionSendMoneyDemo {
 //                TransactionCurrencyUnknown.otherWalletCurrencyTransfer(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, productAmount);
                 }
             }
-
 
             if (toCurrencyTypeId == setupCurrencyTypeId) {
                 ExchangeRate rate = productCurrencyTypeId == CurrencyType.RUB.getId() ? DemoModel.initExchangeRate(productCurrencyType, 56d) : selectedExchangeRate;

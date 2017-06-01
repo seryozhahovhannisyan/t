@@ -1,4 +1,4 @@
-package com.connectto.wallet.util;
+package com.connectto.wallet.util.currency;
 
 import com.connectto.general.exception.InternalErrorException;
 import com.connectto.general.exception.InvalidParameterException;
@@ -8,6 +8,7 @@ import com.connectto.wallet.model.transaction.purchase.TransactionPurchase;
 import com.connectto.wallet.model.transaction.sendmoney.TransactionSendMoney;
 import com.connectto.wallet.model.transaction.sendmoney.TransactionSendMoneyProcess;
 import com.connectto.wallet.model.wallet.lcp.CurrencyType;
+import com.connectto.wallet.util.TransactionSendMoneyDemo;
 
 /**
  * Created by Serozh on 3/30/2017.
