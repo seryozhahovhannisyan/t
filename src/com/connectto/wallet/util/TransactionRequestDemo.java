@@ -5,7 +5,7 @@ import com.connectto.general.exception.InvalidParameterException;
 import com.connectto.general.exception.PermissionDeniedException;
 import com.connectto.general.exception.UnsupportedCurrencyException;
 import com.connectto.general.model.WalletSetup;
-import com.connectto.wallet.model.transaction.sendmoney.TransactionSendMoney;
+import com.connectto.wallet.model.transaction.request.TransactionRequest;
 import com.connectto.wallet.model.wallet.ExchangeRate;
 import com.connectto.wallet.model.wallet.Wallet;
 import com.connectto.wallet.model.wallet.lcp.CurrencyType;
@@ -21,7 +21,7 @@ import java.util.Date;
 /**
  * Created by Serozh on 2/15/16.
  */
-public class TransactionSendMoneyDemo {
+public class TransactionRequestDemo {
 
 
     //Form Fields
@@ -30,7 +30,7 @@ public class TransactionSendMoneyDemo {
     static ExchangeRate selectedExchangeRate;
 
 
-    public static TransactionSendMoney initDemoTransactionSendMoney(
+    public static TransactionRequest initDemoTransactionRequest(
             Double productAmount,
             CurrencyType productCurrencyType,
             CurrencyType from, CurrencyType to, CurrencyType setup
@@ -41,13 +41,13 @@ public class TransactionSendMoneyDemo {
         WalletSetup walletSetup = DemoModel.initWalletSetup(setup, 1);
 
         selectedExchangeRate = DemoModel.initExchangeRate();
-        TransactionSendMoney sendMoney = createTransaction(productAmount, productCurrencyType, fromWallet, toWallet, walletSetup);
-        sendMoney.createTax();
-        return sendMoney;
+        TransactionRequest request = createTransaction(productAmount, productCurrencyType, fromWallet, toWallet, walletSetup);
+        request.createTax();
+        return request;
     }
 
 
-    protected static TransactionSendMoney createTransaction(
+    protected static TransactionRequest createTransaction(
             Double productAmount, CurrencyType productCurrencyType,
             Wallet fromWallet, Wallet toWallet, WalletSetup walletSetup
     ) throws InternalErrorException, PermissionDeniedException, UnsupportedCurrencyException {
@@ -78,7 +78,7 @@ public class TransactionSendMoneyDemo {
         int fromCurrencyTypeId = fromCurrencyType.getId();
         int toCurrencyTypeId = toCurrencyType.getId();
 
-        TransactionSendMoney transaction = new TransactionSendMoney();
+        TransactionRequest transaction = new TransactionRequest();
         transaction.setProductAmount(productAmount);
         transaction.setProductCurrencyType(productCurrencyType);
         transaction.setState(TransactionState.PENDING);
