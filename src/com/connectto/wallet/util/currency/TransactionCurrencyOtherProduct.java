@@ -21,7 +21,7 @@ import java.util.Map;
 public class TransactionCurrencyOtherProduct {
 
 
-    public static <T> void otherWalletCurrencyTransfer(T transaction,
+    public static <T> void otherProductCurrencyTransfer(T transaction,
                                                        TransactionState transactionState,
                                                        Date currentDate,
                                                        ExchangeRate selectedExchangeRate,
@@ -38,25 +38,25 @@ public class TransactionCurrencyOtherProduct {
         CurrencyType walletCurrencyType = wallet.getCurrencyType();
         CurrencyType setupCurrencyType = walletSetup.getCurrencyType();
 
-        Double price = amount * rateAmount;//480.000AMD
-        Map<String, Object> processTaxMap = TaxCalculator.calculateTransferTax(walletSetup, amount);//1000 USD
+        Double price = amount / rateAmount;//480.000AMD
+        Map<String, Object> processTaxMap = TaxCalculator.calculateTransferTax(walletSetup, price);//1000 USD
         TransactionTaxType processTaxType = (TransactionTaxType) processTaxMap.get(Constant.TAX_TYPE_KEY);
         Double processTax = (Double) processTaxMap.get(Constant.TAX_KEY);//100 USD
         Double processTaxPrice = processTax * rateAmount;
 
-        Map<String, Object> exchangeMap = TaxCalculator.calculateTransferExchangeTax(walletSetup, amount);//1000 USD
+        Map<String, Object> exchangeMap = TaxCalculator.calculateTransferExchangeTax(walletSetup, price);//1000 USD
         TransactionTaxType exchangeType = (TransactionTaxType) exchangeMap.get(Constant.TAX_TYPE_KEY);
         Double exchange = (Double) exchangeMap.get(Constant.TAX_KEY);//100 USD
         Double exchangePrice = exchange * rateAmount;//48.000 AMD
 
-        Double totalTaxAmount = processTax + exchange;
-        Double totalTaxPrice = processTaxPrice + exchangePrice;
+        Double totalTaxAmount = processTaxPrice + exchangePrice;
+        Double totalTaxPrice = processTax + exchange;
 
         Double totalAmount = amount + totalTaxAmount;
         Double totalPrice = price + totalTaxPrice;
 //
         if (TransactionPurchase.class.isInstance(transaction)) {
-            otherWalletCurrency(
+            otherProductCurrency(
                     (TransactionPurchase) transaction, transactionState, currentDate, selectedExchangeRate,
                     walletId, setupId,
                     walletCurrencyType, setupCurrencyType,
@@ -66,7 +66,7 @@ public class TransactionCurrencyOtherProduct {
                     totalAmount, totalPrice
             );
         } else if (TransactionSendMoney.class.isInstance(transaction)) {
-            otherWalletCurrencyTransfer(
+            otherProductCurrencyTransfer(
                     (TransactionSendMoney) transaction, selectedExchangeRate,
                     walletId, setupId,
                     walletCurrencyType, setupCurrencyType,
@@ -78,7 +78,7 @@ public class TransactionCurrencyOtherProduct {
         }
     }
 
-    public static <T> void otherWalletCurrencyReceiver(T transaction,
+    public static <T> void otherProductCurrencyReceiver(T transaction,
                                                        TransactionState transactionState,
                                                        Date currentDate,
                                                        ExchangeRate selectedExchangeRate,
@@ -113,7 +113,7 @@ public class TransactionCurrencyOtherProduct {
         Double totalPrice = price - totalTaxPrice;
 //
         if (TransactionSendMoney.class.isInstance(transaction)) {
-            otherWalletCurrencyReceiver(
+            otherProductCurrencyReceiver(
                     (TransactionSendMoney) transaction, selectedExchangeRate,
                     walletId, setupId,
                     walletCurrencyType, setupCurrencyType,
@@ -126,7 +126,7 @@ public class TransactionCurrencyOtherProduct {
     }
 
 
-    private static void otherWalletCurrency(
+    private static void otherProductCurrency(
             TransactionPurchase transactionPurchase, TransactionState transactionState, Date currentDate, ExchangeRate selectedExchangeRate,
             Long walletId, Long setupId,
             CurrencyType walletCurrencyType, CurrencyType setupCurrencyType,
@@ -165,7 +165,7 @@ public class TransactionCurrencyOtherProduct {
     }
 
 
-    private static void otherWalletCurrencyTransfer(
+    private static void otherProductCurrencyTransfer(
             TransactionSendMoney transaction, ExchangeRate selectedExchangeRate,
             Long walletId, Long setupId,
             CurrencyType walletCurrencyType, CurrencyType setupCurrencyType,
@@ -207,7 +207,7 @@ public class TransactionCurrencyOtherProduct {
         transaction.setFromTotalPriceCurrencyType(walletCurrencyType);
     }
 
-    private static void otherWalletCurrencyReceiver(
+    private static void otherProductCurrencyReceiver(
             TransactionSendMoney transaction, ExchangeRate selectedExchangeRate,
             Long walletId, Long setupId,
             CurrencyType walletCurrencyType, CurrencyType setupCurrencyType,

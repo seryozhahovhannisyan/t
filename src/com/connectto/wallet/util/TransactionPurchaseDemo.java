@@ -9,10 +9,7 @@ import com.connectto.wallet.model.wallet.ExchangeRate;
 import com.connectto.wallet.model.wallet.Wallet;
 import com.connectto.wallet.model.wallet.lcp.CurrencyType;
 import com.connectto.wallet.model.wallet.lcp.TransactionState;
-import com.connectto.wallet.util.currency.TransactionCurrencyConvert;
-import com.connectto.wallet.util.currency.TransactionCurrencyEqual;
-import com.connectto.wallet.util.currency.TransactionCurrencyOther;
-import com.connectto.wallet.util.currency.TransactionCurrencyUnknown;
+import com.connectto.wallet.util.currency.*;
 
 import java.util.Date;
 
@@ -93,11 +90,7 @@ public class TransactionPurchaseDemo {
 
             if (walletCurrencyTypeId == setupCurrencyTypeId) {
 
-                ExchangeRate rate = purchaseCurrencyTypeId == CurrencyType.RUB.getId() ? DemoModel.initExchangeRate(purchaseCurrencyType, 56d) : selectedExchangeRate;
-                Double rateAmount = rate.getBuy();
-                Double amount = purchaseAmount / rateAmount;
-
-                TransactionCurrencyEqual.equalCurrencyTransfer(transactionPurchase, null, currentDate, wallet, walletSetup, amount);
+                TransactionCurrencyOtherProduct.otherProductCurrencyTransfer(transactionPurchase, null, currentDate, selectedExchangeRate, wallet, walletSetup, purchaseAmount);
             } else {
 
                 if (purchaseCurrencyTypeId == walletCurrencyTypeId) {

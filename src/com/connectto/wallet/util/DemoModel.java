@@ -56,7 +56,7 @@ public class DemoModel {
         walletSetup.setTransferMaxFee(1000d);
         walletSetup.setTransferFeePercent(10d);
 
-        walletSetup.setExchangeTransferMinFee(1d);
+        walletSetup.setExchangeTransferMinFee(2d);
         walletSetup.setExchangeTransferMaxFee(1000d);
         walletSetup.setExchangeTransferFeePercent(11d);
 
@@ -64,7 +64,7 @@ public class DemoModel {
         walletSetup.setReceiverMaxFee(1000d);
         walletSetup.setReceiverFeePercent(12d);
 
-        walletSetup.setExchangeReceiverMinFee(1d);
+        walletSetup.setExchangeReceiverMinFee(2d);
         walletSetup.setExchangeReceiverMaxFee(1000d);
         walletSetup.setExchangeReceiverFeePercent(13d);
 
