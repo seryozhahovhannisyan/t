@@ -90,7 +90,7 @@ public class TransactionPurchaseDemo {
 
             if (walletCurrencyTypeId == setupCurrencyTypeId) {
 
-                TransactionCurrencyOtherProduct.otherProductCurrencyTransfer(transactionPurchase, null, currentDate, selectedExchangeRate, wallet, walletSetup, purchaseAmount);
+                TransactionCurrencyOtherProduct.otherProductCurrencyTransfer(transactionPurchase, null, currentDate, selectedExchangeRate, wallet, walletSetup, purchaseAmount, purchaseCurrencyType);
             } else {
 
                 if (purchaseCurrencyTypeId == walletCurrencyTypeId) {

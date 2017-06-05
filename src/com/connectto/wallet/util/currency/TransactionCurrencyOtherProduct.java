@@ -27,7 +27,8 @@ public class TransactionCurrencyOtherProduct {
                                                        ExchangeRate selectedExchangeRate,
                                                        Wallet wallet,
                                                        WalletSetup walletSetup,
-                                                       Double amount
+                                                       Double amount,
+                                                       CurrencyType amountCurrencyType
     ) throws InternalErrorException {
 
         Double rateAmount = selectedExchangeRate.getBuy();
@@ -151,7 +152,7 @@ public class TransactionCurrencyOtherProduct {
         TransactionPurchaseProcess purchaseProcess = new TransactionPurchaseProcess(transactionState, currentDate, walletId, setupId,
                 purchaseAmount, setupCurrencyType,
                 purchasePrice, purchaseTotalPrice, walletCurrencyType,
-                purchaseAmount, purchaseTotalAmount, setupCurrencyType,
+                purchasePrice, purchaseTotalPrice, setupCurrencyType,
                 processTax,
                 purchaseProcessExchange);
 
@@ -159,7 +160,7 @@ public class TransactionCurrencyOtherProduct {
         transactionPurchase.setWalletTotalPrice(purchaseTotalPrice);
         transactionPurchase.setWalletTotalPriceCurrencyType(walletCurrencyType);
 
-        transactionPurchase.setSetupTotalAmount(purchaseTotalAmount);
+        transactionPurchase.setSetupTotalAmount(purchaseTotalPrice);
         transactionPurchase.setSetupTotalAmountCurrencyType(setupCurrencyType);
         transactionPurchase.setTax(purchaseTax);
     }

@@ -30,8 +30,14 @@ public class PurchaseTest {
         System.out.println("1  USD USD USD " + purchase1);
         System.out.println("2  AMD USD USD " + purchase2);
         System.out.println("3  USD AMD USD " + purchase3);
-        System.out.println("4  USD AMD AMD " + purchase4);
-        System.out.println("5  USD USD AMD " + purchase5);
+//        System.out.println("4  USD AMD AMD " + purchase4);
+//        System.out.println("5  USD USD AMD " + purchase5);
+        System.out.println("getProcessStart");
+        System.out.println("1  USD USD USD " + purchase1.getProcessStart());
+        System.out.println("2  AMD USD USD " + purchase2.getProcessStart());
+        System.out.println("3  USD AMD USD " + purchase3.getProcessStart());
+//        System.out.println("4  USD AMD AMD " + purchase4.getProcessStart());
+//        System.out.println("5  USD USD AMD " + purchase5.getProcessStart());
         System.out.println("");
         System.out.println("1  USD USD USD " + purchase1.getTax());
         System.out.println("2  AMD USD USD " + purchase2.getTax());
@@ -42,14 +48,14 @@ public class PurchaseTest {
         System.out.println("1  USD USD USD " + purchase1.getTax().getProcessTax());
         System.out.println("2  AMD USD USD " + purchase2.getTax().getProcessTax());
         System.out.println("3  USD AMD USD " + purchase3.getTax().getProcessTax());
-        System.out.println("4  USD AMD AMD " + purchase4.getTax().getProcessTax());
-        System.out.println("5  USD USD AMD " + purchase5.getTax().getProcessTax());
+//        System.out.println("4  USD AMD AMD " + purchase4.getTax().getProcessTax());
+//        System.out.println("5  USD USD AMD " + purchase5.getTax().getProcessTax());
         System.out.println("");
         System.out.println("1  USD USD USD " + purchase1.getTax().getExchangeTax());
         System.out.println("2  AMD USD USD " + purchase2.getTax().getExchangeTax());
         System.out.println("3  USD AMD USD " + purchase3.getTax().getExchangeTax());
-        System.out.println("4  USD AMD AMD " + purchase4.getTax().getExchangeTax());
-        System.out.println("5  USD USD AMD " + purchase5.getTax().getExchangeTax());
+//        System.out.println("4  USD AMD AMD " + purchase4.getTax().getExchangeTax());
+//        System.out.println("5  USD USD AMD " + purchase5.getTax().getExchangeTax());
 
 
 
