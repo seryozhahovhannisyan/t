@@ -53,19 +53,19 @@ public class DemoModel {
         walletSetup.parseAvailableRates();
 
         walletSetup.setTransferMinFee(1d);
-        walletSetup.setTransferMaxFee(1000d);
+        walletSetup.setTransferMaxFee(1000000000d);
         walletSetup.setTransferFeePercent(10d);
 
         walletSetup.setExchangeTransferMinFee(2d);
-        walletSetup.setExchangeTransferMaxFee(1000d);
+        walletSetup.setExchangeTransferMaxFee(1000000000d);
         walletSetup.setExchangeTransferFeePercent(11d);
 
         walletSetup.setReceiverMinFee(1d);
-        walletSetup.setReceiverMaxFee(1000d);
+        walletSetup.setReceiverMaxFee(1000000000d);
         walletSetup.setReceiverFeePercent(12d);
 
         walletSetup.setExchangeReceiverMinFee(2d);
-        walletSetup.setExchangeReceiverMaxFee(1000d);
+        walletSetup.setExchangeReceiverMaxFee(1000000000d);
         walletSetup.setExchangeReceiverFeePercent(13d);
 
         return walletSetup;
@@ -76,7 +76,6 @@ public class DemoModel {
         rate.setOneCurrency(CurrencyType.USD);
         rate.setToCurrency(CurrencyType.AMD);
         rate.setBuy(480d);
-        rate.setSell(1/480d);
         rate.setUpdatedDate(new Date(System.currentTimeMillis()));
         rate.setId(452149L);
         return rate;
@@ -87,7 +86,16 @@ public class DemoModel {
         rate.setOneCurrency(CurrencyType.USD);
         rate.setToCurrency(toCurrencyType);
         rate.setBuy(480d);
-        rate.setSell(1/480d);
+        rate.setUpdatedDate(new Date(System.currentTimeMillis()));
+        rate.setId(452149L);
+        return rate;
+    }
+
+    public static synchronized ExchangeRate initExchangeRate(Double buy, CurrencyType fromCurrencyType, CurrencyType toCurrencyType) {
+        ExchangeRate rate = new ExchangeRate();
+        rate.setOneCurrency(fromCurrencyType);
+        rate.setToCurrency(toCurrencyType);
+        rate.setBuy(buy);
         rate.setUpdatedDate(new Date(System.currentTimeMillis()));
         rate.setId(452149L);
         return rate;
@@ -98,7 +106,6 @@ public class DemoModel {
         rate.setOneCurrency(CurrencyType.USD);
         rate.setToCurrency(toCurrencyType);
         rate.setBuy(buy);
-        rate.setSell(1/buy);
         rate.setUpdatedDate(new Date(System.currentTimeMillis()));
         rate.setId(452149L);
         return rate;

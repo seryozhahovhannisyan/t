@@ -22,7 +22,7 @@ public class OtherProductTest {
 //        TransactionSendMoney sendMoney = TransactionSendMoneyDemo.initDemoTransactionSendMoney(480*100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD);
         //TransactionRequest request     = TransactionRequestDemo.initDemoTransactionRequest    (480*100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD);
                                                                                         //purchaseAmount, purchaseCurrencyType,  from, CurrencyType setup
-        TransactionPurchase purchase   = TransactionPurchaseDemo.initTransaction              (480*100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
+        TransactionPurchase purchase   = TransactionPurchaseDemo.initTransaction              (null,480*100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
 
 
 //

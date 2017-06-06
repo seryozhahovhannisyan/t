@@ -52,7 +52,6 @@ public class TransactionSendMoneyProcess {
     private Long exchangeTaxId;
 
 
-
     public TransactionSendMoneyProcess() {
     }
 
@@ -80,6 +79,22 @@ public class TransactionSendMoneyProcess {
         this.price = price;
         this.processTaxPrice = processTaxPrice;
         this.walletCurrencyType = walletCurrencyType;
+        this.processTax = processTax;
+        this.exchange = exchange;
+    }
+
+    public TransactionSendMoneyProcess(Long walletId,
+                                       Double amount, CurrencyType amountCurrencyType,
+                                       Double price, Double totalPrice, CurrencyType setupCurrencyType,
+                                       TransactionSendMoneyProcessTax processTax,
+                                       TransactionSendMoneyExchange exchange) {
+        this.walletId = walletId;
+        this.amount = amount;
+        this.processTaxAmount = processTaxAmount;
+        this.setupCurrencyType = setupCurrencyType;
+        this.price = price;
+        this.processTaxPrice = processTaxPrice;
+        this.walletCurrencyType = setupCurrencyType;
         this.processTax = processTax;
         this.exchange = exchange;
     }

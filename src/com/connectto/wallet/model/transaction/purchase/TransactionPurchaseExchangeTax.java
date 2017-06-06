@@ -43,6 +43,19 @@ public class TransactionPurchaseExchangeTax {
         this.exchangeTaxType = exchangeTaxType;
     }
 
+    public TransactionPurchaseExchangeTax(Date actionDate, Long walletId, Long setupId,
+                                          Double exchangeTax, CurrencyType exchangeTaxCurrencyType,
+                                          TransactionTaxType exchangeTaxType) {
+        this.actionDate = actionDate;
+        this.walletId = walletId;
+        this.setupId = setupId;
+        this.exchangeTax = exchangeTax;
+        this.exchangeTaxCurrencyType = exchangeTaxCurrencyType;
+        this.exchangeTaxPrice = exchangeTax;
+        this.exchangeTaxPriceCurrencyType = exchangeTaxCurrencyType;
+        this.exchangeTaxType = exchangeTaxType;
+    }
+
     /*
      * #################################################################################################################
      * ########################################        GETTER & SETTER       ###########################################

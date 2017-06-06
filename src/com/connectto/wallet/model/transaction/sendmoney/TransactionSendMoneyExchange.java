@@ -68,6 +68,20 @@ public class TransactionSendMoneyExchange {
         this.exchangeTax = exchangeTax;
     }
 
+    public TransactionSendMoneyExchange(Long walletId, Long setupId,
+                                        Double setupAmount, CurrencyType setupCurrencyType, TransactionSendMoneyExchangeTax exchangeTax) {
+        this.walletId = walletId;
+        this.setupId = setupId;
+        this.setupAmount = setupAmount;
+        this.setupCurrencyType = setupCurrencyType;
+        this.rate = 1d;
+        this.walletBoughtAmount = setupAmount;
+        this.walletBoughtAmountCurrencyType = setupCurrencyType;
+        this.walletPaidAmount = setupAmount;
+        this.walletPaidCurrencyType = setupCurrencyType;
+        this.exchangeTax = exchangeTax;
+    }
+
     /*
      * #################################################################################################################
      * ########################################        GETTER & SETTER       ###########################################

@@ -18,9 +18,8 @@ import java.util.Date;
  */
 public class TransactionPurchaseDemo {
 
-    static ExchangeRate selectedExchangeRate;
-
-    public static TransactionPurchase initTransaction(Double purchaseAmount,
+    public static TransactionPurchase initTransaction(ExchangeRate  selectedExchangeRate ,
+                                                      Double purchaseAmount,
                                                       CurrencyType purchaseCurrencyType,
                                                       CurrencyType from,
                                                       CurrencyType setup
@@ -29,11 +28,12 @@ public class TransactionPurchaseDemo {
         Wallet fromWallet = DemoModel.initWallet(from, "4");
         WalletSetup walletSetup = DemoModel.initWalletSetup(setup, 1);
 
-        selectedExchangeRate = DemoModel.initExchangeRate();
-        return createTransaction(purchaseAmount, purchaseCurrencyType, fromWallet, walletSetup, TransactionState.PURCHASE_CHARGE);
+
+        return createTransaction(selectedExchangeRate, purchaseAmount, purchaseCurrencyType, fromWallet, walletSetup, TransactionState.PURCHASE_CHARGE);
     }
 
-    private static TransactionPurchase createTransaction(Double purchaseAmount, CurrencyType purchaseCurrencyType, Wallet wallet, WalletSetup walletSetup, TransactionState transactionState) throws PermissionDeniedException, InvalidParameterException, InternalErrorException {
+    private static TransactionPurchase createTransaction(ExchangeRate  selectedExchangeRate ,Double purchaseAmount, CurrencyType purchaseCurrencyType, Wallet wallet, WalletSetup walletSetup, TransactionState transactionState) throws PermissionDeniedException, InvalidParameterException, InternalErrorException {
+
 
         String msgUnsupported = Constant.MESSAGE_NOT_SUPPORTED_CURRENCY;
 
@@ -72,8 +72,10 @@ public class TransactionPurchaseDemo {
 
         if (purchaseCurrencyTypeId == setupCurrencyTypeId) {
             if (purchaseCurrencyTypeId == walletCurrencyTypeId) {
+                System.out.println("equalCurrencyTransfer");
                 TransactionCurrencyEqual.equalCurrencyTransfer(transactionPurchase, transactionState, currentDate, wallet, walletSetup, purchaseAmount);
             } else {
+                System.out.println("otherWalletCurrencyTransfer");
                 TransactionCurrencyOther.otherWalletCurrencyTransfer(transactionPurchase, transactionState, currentDate, selectedExchangeRate, wallet, walletSetup, purchaseAmount);
             }
         } else {
@@ -89,13 +91,15 @@ public class TransactionPurchaseDemo {
             //</editor-fold>
 
             if (walletCurrencyTypeId == setupCurrencyTypeId) {
-
+                System.out.println("otherProductCurrencyTransfer");
                 TransactionCurrencyOtherProduct.otherProductCurrencyTransfer(transactionPurchase, null, currentDate, selectedExchangeRate, wallet, walletSetup, purchaseAmount, purchaseCurrencyType);
             } else {
 
                 if (purchaseCurrencyTypeId == walletCurrencyTypeId) {
+                    System.out.println("otherSetupCurrencyTransfer");
                     TransactionCurrencyConvert.otherSetupCurrencyTransfer(transactionPurchase, null, currentDate, selectedExchangeRate, wallet, walletSetup, purchaseAmount);
                 } else {
+                    System.out.println("unknownCurrencyTransfer");
                     ExchangeRate rate = DemoModel.initExchangeRate(purchaseCurrencyType, 56d);
                     Double rateAmount = rate.getBuy();
                     Double amount = purchaseAmount / rateAmount;

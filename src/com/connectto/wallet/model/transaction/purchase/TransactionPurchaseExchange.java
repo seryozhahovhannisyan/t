@@ -54,22 +54,23 @@ public class TransactionPurchaseExchange {
 
     }
 
-    public TransactionPurchaseExchange(Long walletId, Long setupId, Long rateId,
-                                       Date exchangeDate, Double setupAmount, CurrencyType setupCurrencyType, Double rate, CurrencyType rateCurrencyType,
-                                       Double walletBoughtAmount, CurrencyType walletBoughtAmountCurrencyType, Double walletPaidAmount, CurrencyType walletPaidCurrencyType, TransactionPurchaseExchangeTax exchangeTax) {
+    public TransactionPurchaseExchange(Long walletId, Long setupId,
+                                       Date exchangeDate, Double setupAmount, CurrencyType setupCurrencyType, TransactionPurchaseExchangeTax exchangeTax) {
         this.walletId = walletId;
         this.setupId = setupId;
-        this.rateId = rateId;
         this.exchangeDate = exchangeDate;
         this.setupAmount = setupAmount;
         this.setupCurrencyType = setupCurrencyType;
-        this.rate = rate;
-        this.rateCurrencyType = rateCurrencyType;
-        this.walletBoughtAmount = walletBoughtAmount;
-        this.walletBoughtAmountCurrencyType = walletBoughtAmountCurrencyType;
-        this.walletPaidAmount = walletPaidAmount;
-        this.walletPaidCurrencyType = walletPaidCurrencyType;
+        this.rate = 1d;
+        this.rateCurrencyType = setupCurrencyType;
+
+        this.walletBoughtAmount = setupAmount;
+        this.walletBoughtAmountCurrencyType = setupCurrencyType;
+
+        this.walletPaidAmount = setupAmount;
+        this.walletPaidCurrencyType = setupCurrencyType;
         this.exchangeTax = exchangeTax;
+
     }
 
     /*
@@ -208,7 +209,7 @@ public class TransactionPurchaseExchange {
 //                ", exchangeDate=" + exchangeDate +
                 ", setupAmount=" + setupAmount +
                 ", setupCurrencyType=" + setupCurrencyType +
-                ", rate=" + rate +
+//                ", rate=" + rate +
                 ", rateCurrencyType=" + rateCurrencyType +
                 ", walletBoughtAmount=" + walletBoughtAmount +
                 ", walletBoughtAmountCurrencyType=" + walletBoughtAmountCurrencyType +

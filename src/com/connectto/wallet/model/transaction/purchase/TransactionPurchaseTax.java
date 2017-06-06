@@ -69,10 +69,10 @@ public class TransactionPurchaseTax {
             this.totalTaxPrice += this.exchangeTax.getExchangeTaxPrice();
         }
 
-        if (this.processTaxExchangeTax != null) {
-            this.totalTax += this.processTaxExchangeTax.getExchangeTax();
-            this.totalTaxPrice += this.processTaxExchangeTax.getExchangeTaxPrice();
-        }
+//        if (this.processTaxExchangeTax != null) {
+//            this.totalTax += this.processTaxExchangeTax.getExchangeTax();
+//            this.totalTaxPrice += this.processTaxExchangeTax.getExchangeTaxPrice();
+//        }
 
     }
 

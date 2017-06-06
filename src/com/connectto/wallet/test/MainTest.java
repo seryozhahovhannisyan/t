@@ -22,7 +22,7 @@ public class MainTest {
                                                                                         //productAmo, productType,       from,            to, CurrencyType setup ,
         TransactionSendMoney sendMoney = TransactionSendMoneyDemo.initDemoTransactionSendMoney(100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
         TransactionRequest request     = TransactionRequestDemo.initDemoTransactionRequest    (100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
-        TransactionPurchase purchase   = TransactionPurchaseDemo.initTransaction              (100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
+        TransactionPurchase purchase   = TransactionPurchaseDemo.initTransaction              (null, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
 
 
 //

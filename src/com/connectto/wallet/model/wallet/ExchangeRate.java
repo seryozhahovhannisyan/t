@@ -13,7 +13,6 @@ public class ExchangeRate {
     private CurrencyType oneCurrency;
     private CurrencyType toCurrency;
     private Double buy;
-    private Double sell;
     private Date updatedDate;
 
     private int sourceId;
@@ -51,14 +50,6 @@ public class ExchangeRate {
         this.buy = buy;
     }
 
-    public Double getSell() {
-        return sell;
-    }
-
-    public void setSell(Double sell) {
-        this.sell = sell;
-    }
-
     public Date getUpdatedDate() {
         return updatedDate;
     }
@@ -90,7 +81,6 @@ public class ExchangeRate {
                 ", oneCurrency=" + oneCurrency +
                 ", toCurrency=" + toCurrency +
                 ", buy=" + buy +
-                ", sell=" + sell +
                 ", updatedDate=" + updatedDate +
                 ", sourceId=" + sourceId +
                 ", source=" + source +

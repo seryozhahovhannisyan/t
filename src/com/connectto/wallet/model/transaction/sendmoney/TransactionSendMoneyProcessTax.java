@@ -58,6 +58,22 @@ public class TransactionSendMoneyProcessTax {
         this.exchange = exchange;
     }
 
+    public TransactionSendMoneyProcessTax(Long walletId, Long setupId, Double processTax, CurrencyType processTaxCurrencyType, TransactionTaxType processTaxType, TransactionSendMoneyExchange exchange) {
+        this.walletId = walletId;
+        this.setupId = setupId;
+
+        this.processTax = processTax;
+        this.processTaxCurrencyType = processTaxCurrencyType;
+
+        this.processTaxPrice = processTax;
+        this.processTaxPriceCurrencyType = processTaxCurrencyType;
+
+        this.processTaxType = processTaxType;
+        this.exchange = exchange;
+    }
+
+
+
 
     /*
      * #################################################################################################################

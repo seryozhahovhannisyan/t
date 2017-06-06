@@ -62,6 +62,20 @@ public class TransactionPurchaseProcessTax {
         this.calculateTotal();
     }
 
+    public TransactionPurchaseProcessTax(Date actionDate, Long walletId, Long setupId, Double processTax, CurrencyType processTaxCurrencyType,
+                                         TransactionTaxType processTaxType, TransactionPurchaseExchange exchange) {
+        this.actionDate = actionDate;
+        this.walletId = walletId;
+        this.setupId = setupId;
+        this.processTax = processTax;
+        this.processTaxCurrencyType = processTaxCurrencyType;
+        this.processTaxPrice = processTax;
+        this.processTaxPriceCurrencyType = processTaxCurrencyType;
+        this.processTaxType = processTaxType;
+        this.exchange = exchange;
+        this.calculateTotal();
+    }
+
     private void calculateTotal(){
         this.processTaxTotal = this.processTax;
         this.processTaxPriceTotal = this.processTaxPrice;

@@ -39,6 +39,18 @@ public class TransactionSendMoneyExchangeTax {
         this.exchangeTaxType = exchangeTaxType;
     }
 
+     public TransactionSendMoneyExchangeTax(Long walletId, Long setupId,
+                                           Double exchangeTax, CurrencyType exchangeTaxCurrencyType,
+                                           TransactionTaxType exchangeTaxType) {
+        this.walletId = walletId;
+        this.setupId = setupId;
+        this.exchangeTax = exchangeTax;
+        this.exchangeTaxCurrencyType = exchangeTaxCurrencyType;
+        this.exchangeTaxPrice = exchangeTax;
+        this.exchangeTaxPriceCurrencyType = exchangeTaxCurrencyType;
+        this.exchangeTaxType = exchangeTaxType;
+    }
+
     /*
      * #################################################################################################################
      * ########################################        GETTER & SETTER       ###########################################

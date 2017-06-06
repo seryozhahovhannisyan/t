@@ -85,6 +85,28 @@ public class TransactionPurchaseProcess {
         this.exchange = exchange;
     }
 
+    public TransactionPurchaseProcess(TransactionState state, Date actionDate, Long walletId, Long setupId, Double purchaseAmount, CurrencyType purchaseAmountCurrencyType,
+                                     Double setupPurchasePrice, Double setupTotalPrice, CurrencyType setupTotalPriceCurrencyType, TransactionPurchaseProcessTax processTax, TransactionPurchaseExchange exchange) {
+        this.state = state;
+        this.actionDate = actionDate;
+        this.walletId = walletId;
+        this.setupId = setupId;
+
+        this.purchaseAmount = purchaseAmount;
+        this.purchaseAmountCurrencyType = purchaseAmountCurrencyType;
+
+        this.walletPurchasePrice = setupPurchasePrice;
+        this.walletTotalPrice = setupTotalPrice;
+        this.walletTotalPriceCurrencyType = setupTotalPriceCurrencyType;
+
+        this.setupPurchasePrice = setupPurchasePrice;
+        this.setupTotalPrice = setupTotalPrice;
+        this.setupTotalPriceCurrencyType = setupTotalPriceCurrencyType;
+
+        this.processTax = processTax;
+        this.exchange = exchange;
+    }
+
     /*
      * #################################################################################################################
      * ########################################        GETTER & SETTER       ###########################################

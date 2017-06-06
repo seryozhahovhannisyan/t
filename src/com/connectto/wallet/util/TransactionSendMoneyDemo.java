@@ -41,13 +41,30 @@ public class TransactionSendMoneyDemo {
         WalletSetup walletSetup = DemoModel.initWalletSetup(setup, 1);
 
         selectedExchangeRate = DemoModel.initExchangeRate();
-        TransactionSendMoney sendMoney = createTransaction(productAmount, productCurrencyType, fromWallet, toWallet, walletSetup);
+        TransactionSendMoney sendMoney = createTransaction(selectedExchangeRate, productAmount, productCurrencyType, fromWallet, toWallet, walletSetup);
         sendMoney.createTax();
         return sendMoney;
     }
 
 
-    protected static TransactionSendMoney createTransaction(
+    public static TransactionSendMoney initTransaction(
+            ExchangeRate selectedExchangeRate,
+            Double productAmount,
+            CurrencyType productCurrencyType,
+            CurrencyType from, CurrencyType to, CurrencyType setup
+    ) throws InvalidParameterException, PermissionDeniedException, InternalErrorException, UnsupportedCurrencyException {
+
+        Wallet fromWallet = DemoModel.initWallet(from, "4");
+        Wallet toWallet = DemoModel.initWallet(to, "14");
+        WalletSetup walletSetup = DemoModel.initWalletSetup(setup, 1);
+
+        TransactionSendMoney sendMoney = createTransaction(selectedExchangeRate, productAmount, productCurrencyType, fromWallet, toWallet, walletSetup);
+        sendMoney.createTax();
+        return sendMoney;
+    }
+
+
+    protected static TransactionSendMoney createTransaction( ExchangeRate selectedExchangeRate,
             Double productAmount, CurrencyType productCurrencyType,
             Wallet fromWallet, Wallet toWallet, WalletSetup walletSetup
     ) throws InternalErrorException, PermissionDeniedException, UnsupportedCurrencyException {
