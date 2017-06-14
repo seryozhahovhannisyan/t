@@ -18,7 +18,7 @@ import java.util.Date;
  */
 public class TransactionPurchaseDemo {
 
-    public static TransactionPurchase initTransaction(ExchangeRate  selectedExchangeRate ,
+    public static TransactionPurchase initTransaction(ExchangeRate selectedExchangeRate,
                                                       Double purchaseAmount,
                                                       CurrencyType purchaseCurrencyType,
                                                       CurrencyType from,
@@ -32,7 +32,7 @@ public class TransactionPurchaseDemo {
         return createTransaction(selectedExchangeRate, purchaseAmount, purchaseCurrencyType, fromWallet, walletSetup, TransactionState.PURCHASE_CHARGE);
     }
 
-    private static TransactionPurchase createTransaction(ExchangeRate  selectedExchangeRate ,Double purchaseAmount, CurrencyType purchaseCurrencyType, Wallet wallet, WalletSetup walletSetup, TransactionState transactionState) throws PermissionDeniedException, InvalidParameterException, InternalErrorException {
+    private static TransactionPurchase createTransaction(ExchangeRate selectedExchangeRate, Double purchaseAmount, CurrencyType purchaseCurrencyType, Wallet wallet, WalletSetup walletSetup, TransactionState transactionState) throws PermissionDeniedException, InvalidParameterException, InternalErrorException {
 
 
         String msgUnsupported = Constant.MESSAGE_NOT_SUPPORTED_CURRENCY;
@@ -81,33 +81,23 @@ public class TransactionPurchaseDemo {
         } else {
             //<editor-fold desc="elseBlock">
 
-            if (setupCurrencyTypeId == walletCurrencyTypeId) {
-                //otherPurchaseCurrency(transactionPurchase, wallet, walletSetup, purchaseAmount, purchaseCurrencyType, currentDate, transactionState);
-            } else if (purchaseCurrencyTypeId == walletCurrencyTypeId) {
-                //otherSetupCurrency(transactionPurchase, wallet, walletSetup, purchaseAmount, currentDate, transactionState);
-            } else {
-                throw new PermissionDeniedException(msgUnsupported + purchaseCurrencyType);
-            }
-            //</editor-fold>
-
             if (walletCurrencyTypeId == setupCurrencyTypeId) {
                 System.out.println("otherProductCurrencyTransfer");
-                TransactionCurrencyOtherProduct.otherProductCurrencyTransfer(transactionPurchase, null, currentDate, selectedExchangeRate, wallet, walletSetup, purchaseAmount, purchaseCurrencyType);
+                TransactionCurrencyOtherProduct.otherProductCurrencyTransfer(transactionPurchase, transactionState, currentDate, selectedExchangeRate, wallet, walletSetup, purchaseAmount, purchaseCurrencyType);
             } else {
 
                 if (purchaseCurrencyTypeId == walletCurrencyTypeId) {
                     System.out.println("otherSetupCurrencyTransfer");
-                    TransactionCurrencyConvert.otherSetupCurrencyTransfer(transactionPurchase, null, currentDate, selectedExchangeRate, wallet, walletSetup, purchaseAmount);
+                    TransactionCurrencyConvert.otherSetupCurrencyTransfer(transactionPurchase, transactionState, currentDate, selectedExchangeRate, wallet, walletSetup, purchaseAmount);
                 } else {
                     System.out.println("unknownCurrencyTransfer");
                     ExchangeRate rate = DemoModel.initExchangeRate(purchaseCurrencyType, 56d);
                     Double rateAmount = rate.getBuy();
                     Double amount = purchaseAmount / rateAmount;
-                    TransactionCurrencyUnknown.unknownCurrencyTransfer(transactionPurchase, null, currentDate, selectedExchangeRate, wallet, walletSetup, amount, purchaseAmount, purchaseCurrencyType, rate);
-                    //throw new UnsupportedCurrencyException("");
-    //                TransactionCurrencyUnknown.otherWalletCurrencyTransfer(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, productAmount);
+                    TransactionCurrencyUnknown.unknownCurrencyTransfer(transactionPurchase, transactionState, currentDate, selectedExchangeRate, wallet, walletSetup, amount, purchaseAmount, purchaseCurrencyType, rate);
                 }
             }
+            //</editor-fold>
         }
         return transactionPurchase;
     }

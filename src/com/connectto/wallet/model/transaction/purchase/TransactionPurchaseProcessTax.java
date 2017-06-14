@@ -49,7 +49,9 @@ public class TransactionPurchaseProcessTax {
         this.calculateTotal();
     }
 
-    public TransactionPurchaseProcessTax(Date actionDate, Long walletId, Long setupId, Double processTax, CurrencyType processTaxCurrencyType, Double processTaxPrice, CurrencyType processTaxPriceCurrencyType, TransactionTaxType processTaxType, TransactionPurchaseExchange exchange) {
+    public TransactionPurchaseProcessTax(Date actionDate, Long walletId, Long setupId,
+                                         Double processTax, CurrencyType processTaxCurrencyType,
+                                         Double processTaxPrice, CurrencyType processTaxPriceCurrencyType, TransactionTaxType processTaxType, TransactionPurchaseExchange exchange) {
         this.actionDate = actionDate;
         this.walletId = walletId;
         this.setupId = setupId;
@@ -62,7 +64,8 @@ public class TransactionPurchaseProcessTax {
         this.calculateTotal();
     }
 
-    public TransactionPurchaseProcessTax(Date actionDate, Long walletId, Long setupId, Double processTax, CurrencyType processTaxCurrencyType,
+    public TransactionPurchaseProcessTax(Date actionDate, Long walletId, Long setupId,
+                                         Double processTax, CurrencyType processTaxCurrencyType,
                                          TransactionTaxType processTaxType, TransactionPurchaseExchange exchange) {
         this.actionDate = actionDate;
         this.walletId = walletId;

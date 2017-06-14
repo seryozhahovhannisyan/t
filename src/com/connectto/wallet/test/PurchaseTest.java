@@ -17,22 +17,24 @@ public class PurchaseTest {
 
     public static void main(String[] args) throws InvalidParameterException, InternalErrorException, PermissionDeniedException, UnsupportedCurrencyException {
         ExchangeRate selectedExchangeRate = DemoModel.initExchangeRate(480d, CurrencyType.USD, CurrencyType.AMD);
-        ExchangeRate selectedExchangeRate2 = DemoModel.initExchangeRate(1/480d, CurrencyType.USD, CurrencyType.AMD);
+        ExchangeRate selectedExchangeRate2 = DemoModel.initExchangeRate(1 / 480d, CurrencyType.USD, CurrencyType.AMD);
         //purchaseAmount, purchaseCurrencyType,  from, CurrencyType setup
-        TransactionPurchase purchase1 = TransactionPurchaseDemo.initTransaction(null, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
+//        TransactionPurchase purchase1 = TransactionPurchaseDemo.initTransaction(null, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
+//
+//        TransactionPurchase purchase2 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate, 480 * 100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
+//        TransactionPurchase purchase4 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate2, 100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.AMD);
+//
+        TransactionPurchase purchase3 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD);
+//        TransactionPurchase purchase6 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate2, 480 * 100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.AMD);
+//
+//
+//        TransactionPurchase purchase5 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate2, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD);
+//        TransactionPurchase purchase7 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate, 480 * 100d, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
 
-        TransactionPurchase purchase2 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate, 480 * 100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
-        TransactionPurchase purchase4 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate2, 100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.AMD);
 
-        TransactionPurchase purchase3 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate,  100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD);
-        TransactionPurchase purchase6 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate2, 480 *100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.AMD);
-
-
-        TransactionPurchase purchase5 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate2, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD);
-        TransactionPurchase purchase7 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate, 480 *100d, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
-
+        TransactionPurchase unknown = TransactionPurchaseDemo.initTransaction(selectedExchangeRate, 56 * 100d, CurrencyType.RUB, CurrencyType.AMD, CurrencyType.USD);
 //        print(purchase1, purchase2, purchase3, purchase4, purchase5);
-        print(purchase5,purchase7);
+        print(unknown, purchase3);
     }
 
     private static void print(TransactionPurchase purchase1, TransactionPurchase purchase2, TransactionPurchase purchase3, TransactionPurchase purchase4, TransactionPurchase purchase5) {

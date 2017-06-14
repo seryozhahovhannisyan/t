@@ -64,7 +64,10 @@ public class TransactionPurchaseProcess {
         this.processTax = processTax;
     }
 
-    public TransactionPurchaseProcess(TransactionState state, Date actionDate, Long walletId, Long setupId, Double purchaseAmount, CurrencyType purchaseAmountCurrencyType, Double walletPurchasePrice, Double walletTotalPrice, CurrencyType walletTotalPriceCurrencyType, Double setupPurchasePrice, Double setupTotalPrice, CurrencyType setupTotalPriceCurrencyType, TransactionPurchaseProcessTax processTax, TransactionPurchaseExchange exchange) {
+    public TransactionPurchaseProcess(TransactionState state, Date actionDate, Long walletId, Long setupId, Double purchaseAmount, CurrencyType purchaseAmountCurrencyType,
+                                      Double walletPurchasePrice, Double walletTotalPrice, CurrencyType walletTotalPriceCurrencyType,
+                                      Double setupPurchasePrice, Double setupTotalPrice, CurrencyType setupTotalPriceCurrencyType,
+                                      TransactionPurchaseProcessTax processTax, TransactionPurchaseExchange exchange) {
         this.state = state;
         this.actionDate = actionDate;
         this.walletId = walletId;
