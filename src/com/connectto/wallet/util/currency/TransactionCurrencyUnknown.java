@@ -148,28 +148,34 @@ public class TransactionCurrencyUnknown {
         // 10*480=4800
         TransactionPurchaseExchangeTax processExchangeTax = new TransactionPurchaseExchangeTax(currentDate, walletId, setupId,
                 purchaseProcessTax, setupCurrencyType, purchaseProcessTaxPrice, walletCurrencyType, purchaseProcessTaxType);
+
         TransactionPurchaseExchange processExchange = new TransactionPurchaseExchange(walletId, setupId, rateId, currentDate,
-                purchaseProcessTax, setupCurrencyType, rateAmount, walletCurrencyType, purchaseProcessTaxPrice, walletCurrencyType, processExchangeTax);
+                purchaseProcessTax, setupCurrencyType, rateAmount, walletCurrencyType,
+                purchaseProcessTaxPrice, walletCurrencyType, processExchangeTax);
 //
         //Info(NOT decrease wallet balance, just show total exchange structure)
         // 11*480=5280
         TransactionPurchaseExchangeTax exchangeTax = new TransactionPurchaseExchangeTax(currentDate, walletId, setupId, exchangePurchase, setupCurrencyType,
                 exchangePurchasePrice, walletCurrencyType, exchangePurchaseType);
-        TransactionPurchaseExchange exchange = new TransactionPurchaseExchange(walletId, setupId, rateId, currentDate, exchangePurchase, setupCurrencyType,
-                rateAmount, walletCurrencyType, exchangePurchasePrice, walletCurrencyType, exchangeTax);
+        TransactionPurchaseExchange exchange = new TransactionPurchaseExchange(walletId, setupId, rateId, currentDate,
+                purchaseProcessTax, setupCurrencyType, rateAmount, walletCurrencyType,
+                purchaseProcessTaxPrice, walletCurrencyType, exchangeTax);
 //
 
-        TransactionPurchaseProcessTax processTax = new TransactionPurchaseProcessTax(currentDate, walletId, setupId, purchaseProcessTax,
-                setupCurrencyType, purchaseProcessTaxPrice, walletCurrencyType, purchaseProcessTaxType, exchange);
+        TransactionPurchaseProcessTax processTax = new TransactionPurchaseProcessTax(currentDate, walletId, setupId,
+                purchaseProcessTax, setupCurrencyType,
+                purchaseProcessTaxPrice, walletCurrencyType, purchaseProcessTaxType, exchange);
+
         TransactionPurchaseProcess process = new TransactionPurchaseProcess(
                 transactionState, currentDate,
                 walletId, setupId,
                 productAmount, productCurrencyType,
-                purchaseAmount, purchaseProcessTax, setupCurrencyType,
-                purchasePrice, purchaseProcessTaxPrice, walletCurrencyType,
+                purchasePrice, totalPrice, walletCurrencyType,
+                purchaseAmount, totalAmount, setupCurrencyType,
                 processTax, exchange);
 
-        TransactionPurchaseTax purchaseTax = new TransactionPurchaseTax(currentDate, walletId, setupId, processTax, exchangeTax, exchangeTax);
+        TransactionPurchaseTax purchaseTax
+                = new TransactionPurchaseTax(currentDate, walletId, setupId, processTax, exchangeTax, exchangeTax);
 
         transaction.setProcessStart(process);
         transaction.setWalletTotalPrice(totalPrice);

@@ -145,8 +145,13 @@ public class TransactionCurrencyOther {
                 purchaseProcessTax, setupCurrencyType, rateAmount, walletCurrencyType, purchaseProcessTaxPrice, walletCurrencyType, purchaseExchangeTax);
 
         TransactionPurchaseProcessTax processTax = new TransactionPurchaseProcessTax(
-                currentDate, walletId, setupId, purchaseProcessTax, setupCurrencyType, purchaseProcessTaxPrice, walletCurrencyType, purchaseProcessTaxType, purchaseProcessExchange);
-        TransactionPurchaseTax purchaseTax = new TransactionPurchaseTax(currentDate, walletId, setupId, processTax, purchaseExchangeTax, purchaseExchangeTax);
+                currentDate, walletId, setupId,
+                purchaseProcessTax, setupCurrencyType,
+                purchaseProcessTaxPrice,  walletCurrencyType,
+                purchaseProcessTaxType, purchaseProcessExchange);
+        TransactionPurchaseTax purchaseTax =
+                new TransactionPurchaseTax(currentDate, walletId, setupId, processTax, purchaseExchangeTax,
+                        purchaseExchangeTax);
 
         TransactionPurchaseProcess purchaseProcess = new TransactionPurchaseProcess(transactionState, currentDate, walletId, setupId,
                 purchaseAmount, setupCurrencyType,
