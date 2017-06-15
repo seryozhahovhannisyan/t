@@ -21,7 +21,7 @@ public class PurchaseTest {
         //purchaseAmount, purchaseCurrencyType,  from, CurrencyType setup
 //        TransactionPurchase purchase1 = TransactionPurchaseDemo.initTransaction(null, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
 //
-//        TransactionPurchase purchase2 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate, 480 * 100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
+        TransactionPurchase purchase2 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate, 480 * 100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
 //        TransactionPurchase purchase4 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate2, 100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.AMD);
 //
         TransactionPurchase purchase3 = TransactionPurchaseDemo.initTransaction(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD);
@@ -34,7 +34,7 @@ public class PurchaseTest {
 
         TransactionPurchase unknown = TransactionPurchaseDemo.initTransaction(selectedExchangeRate, 56 * 100d, CurrencyType.RUB, CurrencyType.AMD, CurrencyType.USD);
 //        print(purchase1, purchase2, purchase3, purchase4, purchase5);
-        print(unknown, purchase3);
+        print(purchase2, purchase3);
     }
 
     private static void print(TransactionPurchase purchase1, TransactionPurchase purchase2, TransactionPurchase purchase3, TransactionPurchase purchase4, TransactionPurchase purchase5) {

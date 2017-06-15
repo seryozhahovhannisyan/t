@@ -116,7 +116,7 @@ public class TransactionRequestTax {
                 //"id=" + id +
                 //", actionDate=" + actionDate +
                 //", setupId=" + setupId +
-                ", totalTax=" + totalTax +
+                ",   totalTax=" + totalTax +
                 ", fromProcessTax=" + fromProcessTax +
                 ", toProcessTax=" + toProcessTax +
                 '}';

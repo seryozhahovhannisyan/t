@@ -52,6 +52,24 @@ public class TransactionRequestExchange {
     }
 
     public TransactionRequestExchange(Long walletId, Long setupId, Long rateId,
+                                        Double setupAmount, CurrencyType setupCurrencyType, Double rate, Double walletBoughtAmount, CurrencyType walletBoughtAmountCurrencyType, Double walletPaidAmount, CurrencyType walletPaidCurrencyType) {
+        this.walletId = walletId;
+        this.setupId = setupId;
+        this.rateId = rateId;
+        this.setupAmount = setupAmount;
+        this.setupCurrencyType = setupCurrencyType;
+        this.rate = rate;
+        this.rateCurrencyType = rateCurrencyType;
+
+        this.walletBoughtAmount = walletBoughtAmount;
+        this.walletBoughtAmountCurrencyType = walletBoughtAmountCurrencyType;
+
+        this.walletPaidAmount = walletPaidAmount;
+        this.walletPaidCurrencyType = walletPaidCurrencyType;
+
+    }
+
+    public TransactionRequestExchange(Long walletId, Long setupId, Long rateId,
                                         Date exchangeDate, Double setupAmount, CurrencyType setupCurrencyType, Double rate, CurrencyType rateCurrencyType,
                                         Double walletBoughtAmount, CurrencyType walletBoughtAmountCurrencyType, Double walletPaidAmount, CurrencyType walletPaidCurrencyType, TransactionRequestExchangeTax exchangeTax) {
         this.walletId = walletId;
@@ -65,6 +83,20 @@ public class TransactionRequestExchange {
         this.walletBoughtAmountCurrencyType = walletBoughtAmountCurrencyType;
         this.walletPaidAmount = walletPaidAmount;
         this.walletPaidCurrencyType = walletPaidCurrencyType;
+        this.exchangeTax = exchangeTax;
+    }
+
+    public TransactionRequestExchange(Long walletId, Long setupId,
+                                        Double setupAmount, CurrencyType setupCurrencyType, TransactionRequestExchangeTax exchangeTax) {
+        this.walletId = walletId;
+        this.setupId = setupId;
+        this.setupAmount = setupAmount;
+        this.setupCurrencyType = setupCurrencyType;
+        this.rate = 1d;
+        this.walletBoughtAmount = setupAmount;
+        this.walletBoughtAmountCurrencyType = setupCurrencyType;
+        this.walletPaidAmount = setupAmount;
+        this.walletPaidCurrencyType = setupCurrencyType;
         this.exchangeTax = exchangeTax;
     }
 
@@ -189,7 +221,7 @@ public class TransactionRequestExchange {
     @Override
     public String toString() {
         return "TransactionRequestExchange{" +
-                "setupAmount=" + setupAmount +
+                "  setupAmount=" + setupAmount +
                 ", setupCurrencyType=" + setupCurrencyType +
                 ", rate=" + rate +
                 ", rateCurrencyType=" + rateCurrencyType +

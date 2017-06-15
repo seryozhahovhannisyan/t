@@ -18,87 +18,110 @@ public class SendMoneyTest {
     public static void main(String[] args) throws InvalidParameterException, InternalErrorException, PermissionDeniedException, UnsupportedCurrencyException {
         ExchangeRate selectedExchangeRate = DemoModel.initExchangeRate(480d, CurrencyType.USD, CurrencyType.AMD);
         ExchangeRate selectedExchangeRate2 = DemoModel.initExchangeRate(1 / 480d, CurrencyType.USD, CurrencyType.AMD);
-        //purchaseAmount, purchaseCurrencyType,  from, CurrencyType setup
-        TransactionSendMoney purchase1 = TransactionSendMoneyDemo.initTransaction(null, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
+        //Double productAmount,  productCurrencyType,    from,   to,   setup
+//        TransactionSendMoney transaction1 = TransactionSendMoneyDemo.initTransaction(null, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
+//        print(transaction1);
 
-        TransactionSendMoney purchase2 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 480 * 100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
-        TransactionSendMoney purchase4 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate2, 100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD, CurrencyType.AMD);
+        TransactionSendMoney transaction2 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 480 * 100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
+        print(transaction2);
+//        TransactionSendMoney transaction4 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate2, 100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD, CurrencyType.AMD);
+//
+//        TransactionSendMoney transaction3 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
+//        TransactionSendMoney transaction6 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate2, 480 * 100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD);
+//
+//
+//        TransactionSendMoney transaction5 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate2, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD);
+//        TransactionSendMoney transaction7 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 480 * 100d, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
 
-        TransactionSendMoney purchase3 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
-        TransactionSendMoney purchase6 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate2, 480 * 100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD);
-
-
-        TransactionSendMoney purchase5 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate2, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD);
-        TransactionSendMoney purchase7 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 480 * 100d, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
-
-//        print(purchase1, purchase2, purchase3, purchase4, purchase5);
-        print(purchase2, purchase4);
+//        print(transaction1, transaction2, transaction3, transaction4, transaction5);
+//        print(transaction2, transaction4);
     }
 
-    private static void print(TransactionSendMoney purchase1, TransactionSendMoney purchase2, TransactionSendMoney purchase3, TransactionSendMoney purchase4, TransactionSendMoney purchase5) {
+    private static void print(TransactionSendMoney transaction1, TransactionSendMoney transaction2, TransactionSendMoney transaction3, TransactionSendMoney transaction4, TransactionSendMoney transaction5) {
         System.out.println("All");
-        System.out.println("1  USD USD USD " + purchase1);
-        System.out.println("2  AMD USD USD " + purchase2);
-        System.out.println("3  USD AMD USD " + purchase3);
-        System.out.println("4  USD AMD AMD " + purchase4);
-        System.out.println("5  USD USD AMD " + purchase5);
+        System.out.println("1  USD USD USD " + transaction1);
+        System.out.println("2  AMD USD USD " + transaction2);
+        System.out.println("3  USD AMD USD " + transaction3);
+        System.out.println("4  USD AMD AMD " + transaction4);
+        System.out.println("5  USD USD AMD " + transaction5);
         System.out.println("getProcessStart");
-//        System.out.println("1  USD USD USD " + purchase1.getProcessStart());
-//        System.out.println("2  AMD USD USD " + purchase2.getProcessStart());
-//        System.out.println("3  USD AMD USD " + purchase3.getProcessStart());
-//        System.out.println("4  USD AMD AMD " + purchase4.getProcessStart());
-//        System.out.println("5  USD USD AMD " + purchase5.getProcessStart());
+//        System.out.println("1  USD USD USD " + transaction1.getProcessStart());
+//        System.out.println("2  AMD USD USD " + transaction2.getProcessStart());
+//        System.out.println("3  USD AMD USD " + transaction3.getProcessStart());
+//        System.out.println("4  USD AMD AMD " + transaction4.getProcessStart());
+//        System.out.println("5  USD USD AMD " + transaction5.getProcessStart());
         System.out.println("getTax");
-        System.out.println("1  USD USD USD " + purchase1.getTax());
-        System.out.println("2  AMD USD USD " + purchase2.getTax());
-        System.out.println("3  USD AMD USD " + purchase3.getTax());
-        System.out.println("4  USD AMD AMD " + purchase4.getTax());
-        System.out.println("5  USD USD AMD " + purchase5.getTax());
+        System.out.println("1  USD USD USD " + transaction1.getTax());
+        System.out.println("2  AMD USD USD " + transaction2.getTax());
+        System.out.println("3  USD AMD USD " + transaction3.getTax());
+        System.out.println("4  USD AMD AMD " + transaction4.getTax());
+        System.out.println("5  USD USD AMD " + transaction5.getTax());
         System.out.println("getProcessTax");
-//        System.out.println("1  USD USD USD " + purchase1.getTax().getProcessTax());
-//        System.out.println("2  AMD USD USD " + purchase2.getTax().getProcessTax());
-//        System.out.println("3  USD AMD USD " + purchase3.getTax().getProcessTax());
-//        System.out.println("4  USD AMD AMD " + purchase4.getTax().getProcessTax());
-//        System.out.println("5  USD USD AMD " + purchase5.getTax().getProcessTax());
+//        System.out.println("1  USD USD USD " + transaction1.getTax().getProcessTax());
+//        System.out.println("2  AMD USD USD " + transaction2.getTax().getProcessTax());
+//        System.out.println("3  USD AMD USD " + transaction3.getTax().getProcessTax());
+//        System.out.println("4  USD AMD AMD " + transaction4.getTax().getProcessTax());
+//        System.out.println("5  USD USD AMD " + transaction5.getTax().getProcessTax());
 //        System.out.println("getExchangeTax");
-//        System.out.println("1  USD USD USD " + purchase1.getTax().getExchangeTax());
-//        System.out.println("2  AMD USD USD " + purchase2.getTax().getExchangeTax());
-//        System.out.println("3  USD AMD USD " + purchase3.getTax().getExchangeTax());
-//        System.out.println("4  USD AMD AMD " + purchase4.getTax().getExchangeTax());
-//        System.out.println("5  USD USD AMD " + purchase5.getTax().getExchangeTax());
+//        System.out.println("1  USD USD USD " + transaction1.getTax().getExchangeTax());
+//        System.out.println("2  AMD USD USD " + transaction2.getTax().getExchangeTax());
+//        System.out.println("3  USD AMD USD " + transaction3.getTax().getExchangeTax());
+//        System.out.println("4  USD AMD AMD " + transaction4.getTax().getExchangeTax());
+//        System.out.println("5  USD USD AMD " + transaction5.getTax().getExchangeTax());
 //
 //
 //        System.out.println("getProcessTax.getExchange");
-//        System.out.println("1  USD USD USD " + purchase1.getTax().getProcessTax().getExchange());
-//        System.out.println("2  AMD USD USD " + purchase2.getTax().getProcessTax().getExchange());
-//        System.out.println("3  USD AMD USD " + purchase3.getTax().getProcessTax().getExchange());
-//        System.out.println("4  USD AMD USD " + purchase4.getTax().getProcessTax().getExchange());
+//        System.out.println("1  USD USD USD " + transaction1.getTax().getProcessTax().getExchange());
+//        System.out.println("2  AMD USD USD " + transaction2.getTax().getProcessTax().getExchange());
+//        System.out.println("3  USD AMD USD " + transaction3.getTax().getProcessTax().getExchange());
+//        System.out.println("4  USD AMD USD " + transaction4.getTax().getProcessTax().getExchange());
 
     }
 
-    private static void print(TransactionSendMoney purchase1, TransactionSendMoney purchase2) {
+    private static void print(TransactionSendMoney transaction1, TransactionSendMoney transaction2) {
         System.out.println("All");
-        System.out.println("1 " + purchase1);
-        System.out.println("2 " + purchase2);
+        System.out.println("1 " + transaction1);
+        System.out.println("2 " + transaction2);
         System.out.println("getFromTransactionProcess");
-        System.out.println("1   " + purchase1.getFromTransactionProcess());
-        System.out.println("2   " + purchase2.getFromTransactionProcess());
+        System.out.println("1   " + transaction1.getFromTransactionProcess());
+        System.out.println("2   " + transaction2.getFromTransactionProcess());
         System.out.println("getTax");
-        System.out.println("1   " + purchase1.getTax());
-        System.out.println("2   " + purchase2.getTax());
+        System.out.println("1   " + transaction1.getTax());
+        System.out.println("2   " + transaction2.getTax());
         System.out.println("getFromProcessTax");
-        System.out.println("1   " + purchase1.getTax().getFromProcessTax());
-        System.out.println("2   " + purchase2.getTax().getFromProcessTax());
+        System.out.println("1   " + transaction1.getTax().getFromProcessTax());
+        System.out.println("2   " + transaction2.getTax().getFromProcessTax());
         System.out.println("getFromExchangeTax");
-        System.out.println("1   " + purchase1.getTax().getFromExchangeTax());
-        System.out.println("2   " + purchase2.getTax().getFromExchangeTax());
+        System.out.println("1   " + transaction1.getTax().getFromExchangeTax());
+        System.out.println("2   " + transaction2.getTax().getFromExchangeTax());
 //
 //
         System.out.println("getFromProcessTax.getExchange");
-        System.out.println("1   " + purchase1.getTax().getFromProcessTax().getExchange());
-        System.out.println("2   " + purchase2.getTax().getFromProcessTax().getExchange());
+        System.out.println("1   " + transaction1.getTax().getFromProcessTax().getExchange());
+        System.out.println("2   " + transaction2.getTax().getFromProcessTax().getExchange());
 
     }
 
+    private static void print(TransactionSendMoney transaction1) {
+        System.out.println("All");
+        System.out.println("1 " + transaction1);
+        System.out.println("getFromTransactionProcess");
+        System.out.println("f   " + transaction1.getFromTransactionProcess());
+        System.out.println("t   " + transaction1.getToTransactionProcess());
+        System.out.println("getTax");
+        System.out.println("1   " + transaction1.getTax());
+        System.out.println("getFromProcessTax");
+        System.out.println("f   " + transaction1.getTax().getFromProcessTax());
+        System.out.println("t   " + transaction1.getTax().getToProcessTax());
+        System.out.println("getFromExchangeTax");
+        System.out.println("f   " + transaction1.getTax().getFromExchangeTax());
+        System.out.println("t   " + transaction1.getTax().getToExchangeTax());
 
+//
+//
+        System.out.println("getFromProcessTax.getExchange");
+        System.out.println("f   " + transaction1.getTax().getFromProcessTax().getExchange());
+        System.out.println("f   " + transaction1.getTax().getToProcessTax().getExchange());
+
+    }
 }

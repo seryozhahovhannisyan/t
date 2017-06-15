@@ -58,6 +58,20 @@ public class TransactionRequestProcessTax {
         this.exchange = exchange;
     }
 
+    public TransactionRequestProcessTax(Long walletId, Long setupId, Double processTax, CurrencyType processTaxCurrencyType, TransactionTaxType processTaxType, TransactionRequestExchange exchange) {
+        this.walletId = walletId;
+        this.setupId = setupId;
+
+        this.processTax = processTax;
+        this.processTaxCurrencyType = processTaxCurrencyType;
+
+        this.processTaxPrice = processTax;
+        this.processTaxPriceCurrencyType = processTaxCurrencyType;
+
+        this.processTaxType = processTaxType;
+        this.exchange = exchange;
+    }
+
 
     /*
      * #################################################################################################################
@@ -156,7 +170,7 @@ public class TransactionRequestProcessTax {
     @Override
     public String toString() {
         return "TransactionRequestProcessTax{" +
-                "processTax=" + processTax +
+                "  processTax=" + processTax +
                 ", processTaxCurrencyType=" + processTaxCurrencyType +
                 ", processTaxPrice=" + processTaxPrice +
                 ", processTaxPriceCurrencyType=" + processTaxPriceCurrencyType +

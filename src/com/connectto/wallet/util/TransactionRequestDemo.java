@@ -11,10 +11,7 @@ import com.connectto.wallet.model.wallet.Wallet;
 import com.connectto.wallet.model.wallet.lcp.CurrencyType;
 import com.connectto.wallet.model.wallet.lcp.TransactionState;
 import com.connectto.wallet.model.wallet.lcp.TransactionType;
-import com.connectto.wallet.util.currency.TransactionCurrencyConvert;
-import com.connectto.wallet.util.currency.TransactionCurrencyEqual;
-import com.connectto.wallet.util.currency.TransactionCurrencyOther;
-import com.connectto.wallet.util.currency.TransactionCurrencyUnknown;
+import com.connectto.wallet.util.currency.*;
 
 import java.util.Date;
 
@@ -31,6 +28,23 @@ public class TransactionRequestDemo {
 
 
     public static TransactionRequest initDemoTransactionRequest(
+            ExchangeRate selectedExchangeRate,
+            Double productAmount,
+            CurrencyType productCurrencyType,
+            CurrencyType from, CurrencyType to, CurrencyType setup
+    ) throws InvalidParameterException, PermissionDeniedException, InternalErrorException, UnsupportedCurrencyException {
+
+        Wallet fromWallet = DemoModel.initWallet(from, "4");
+        Wallet toWallet = DemoModel.initWallet(to, "14");
+        WalletSetup walletSetup = DemoModel.initWalletSetup(setup, 1);
+
+
+        TransactionRequest request = createTransaction(selectedExchangeRate, productAmount, productCurrencyType, fromWallet, toWallet, walletSetup);
+        request.createTax();
+        return request;
+    }
+
+    public static TransactionRequest initDemoTransactionRequest(
             Double productAmount,
             CurrencyType productCurrencyType,
             CurrencyType from, CurrencyType to, CurrencyType setup
@@ -41,13 +55,14 @@ public class TransactionRequestDemo {
         WalletSetup walletSetup = DemoModel.initWalletSetup(setup, 1);
 
         selectedExchangeRate = DemoModel.initExchangeRate();
-        TransactionRequest request = createTransaction(productAmount, productCurrencyType, fromWallet, toWallet, walletSetup);
+        TransactionRequest request = createTransaction(selectedExchangeRate, productAmount, productCurrencyType, fromWallet, toWallet, walletSetup);
         request.createTax();
         return request;
     }
 
 
-    protected static TransactionRequest createTransaction(
+    protected static TransactionRequest createTransactionOld(
+            ExchangeRate selectedExchangeRate,
             Double productAmount, CurrencyType productCurrencyType,
             Wallet fromWallet, Wallet toWallet, WalletSetup walletSetup
     ) throws InternalErrorException, PermissionDeniedException, UnsupportedCurrencyException {
@@ -91,7 +106,6 @@ public class TransactionRequestDemo {
 
         Double currentBalance = fromWallet.getMoney();
         Double frozenAmount = fromWallet.getFrozenAmount();
-
 
         Double availableAmount = currentBalance - frozenAmount;
         if (availableAmount <= 0) {
@@ -158,4 +172,112 @@ public class TransactionRequestDemo {
     }
 
 
+    protected static TransactionRequest createTransaction(ExchangeRate selectedExchangeRate,
+                                                          Double productAmount, CurrencyType productCurrencyType,
+                                                          Wallet fromWallet, Wallet toWallet, WalletSetup walletSetup
+    ) throws InternalErrorException, PermissionDeniedException, UnsupportedCurrencyException {
+
+        //<editor-fold desc="initBlock">
+        Date currentDate = new Date(System.currentTimeMillis());
+
+        if (fromWallet == null || toWallet == null) {
+            throw new InternalErrorException(Constant.MESSAGE_UNKNOWN_WALLETS);
+        }
+
+        CurrencyType fromCurrencyType = fromWallet.getCurrencyType();
+        CurrencyType toCurrencyType = toWallet.getCurrencyType();
+
+        boolean isProductCurrencyTypeSupported = walletSetup.isCurrencyTypeSupported(productCurrencyType);
+        boolean isFromCurrencyTypeSupported = walletSetup.isCurrencyTypeSupported(fromCurrencyType);
+        boolean isToCurrencyTypeSupported = walletSetup.isCurrencyTypeSupported(toCurrencyType);
+
+        if (!isProductCurrencyTypeSupported || !isFromCurrencyTypeSupported || !isToCurrencyTypeSupported) {
+            throw new PermissionDeniedException();
+        }
+
+        CurrencyType setupCurrencyType = walletSetup.getCurrencyType();
+
+        int setupCurrencyTypeId = setupCurrencyType.getId();
+        int productCurrencyTypeId = productCurrencyType.getId();
+
+        int fromCurrencyTypeId = fromCurrencyType.getId();
+        int toCurrencyTypeId = toCurrencyType.getId();
+
+        TransactionRequest transaction = new TransactionRequest();
+        transaction.setProductAmount(productAmount);
+        transaction.setProductCurrencyType(productCurrencyType);
+        transaction.setState(TransactionState.PENDING);
+        transaction.setOpenedAt(currentDate);
+        transaction.setWalletSetupId(walletSetup.getId());
+        transaction.setFromWalletId(fromWallet.getId());
+        transaction.setFromWallet(fromWallet);
+        transaction.setToWalletId(toWallet.getId());
+        transaction.setToWallet(toWallet);
+
+        Double currentBalance = fromWallet.getMoney();
+        Double frozenAmount = fromWallet.getFrozenAmount();
+
+        Double availableAmount = currentBalance - frozenAmount;
+        if (availableAmount <= 0) {
+            throw new InternalErrorException(Constant.MESSAGE_LESS_MONEY);
+        }
+        //</editor-fold>
+
+        if (productCurrencyTypeId == setupCurrencyTypeId) {
+
+            if (productCurrencyTypeId == fromCurrencyTypeId) {
+                System.out.println("equalCurrencyTransfer");
+                TransactionCurrencyEqual.equalCurrencyTransfer(transaction, null, currentDate, fromWallet, walletSetup, productAmount);
+            } else {
+                System.out.println("otherWalletCurrencyTransfer");
+                TransactionCurrencyOther.otherWalletCurrencyTransfer(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, productAmount);
+            }
+
+            if (productCurrencyTypeId == toCurrencyTypeId) {
+                System.out.println("equalCurrencyReceiver");
+                TransactionCurrencyEqual.equalCurrencyReceiver(transaction, null, currentDate, toWallet, walletSetup, productAmount);
+            } else {
+                System.out.println("otherWalletCurrencyReceiver");
+                TransactionCurrencyOther.otherWalletCurrencyReceiver(transaction, null, currentDate, selectedExchangeRate, toWallet, walletSetup, productAmount);
+            }
+
+        } else {
+
+            if (fromCurrencyTypeId == setupCurrencyTypeId) {
+                System.out.println("otherProductCurrencyTransfer");
+                TransactionCurrencyOtherProduct.otherProductCurrencyTransfer(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, productAmount, productCurrencyType);
+            } else {
+                if (productCurrencyTypeId == fromCurrencyTypeId) {
+                    System.out.println("otherSetupCurrencyTransfer");
+                    TransactionCurrencyConvert.otherSetupCurrencyTransfer(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, productAmount);
+                } else {
+                    ExchangeRate rate = DemoModel.initExchangeRate(productCurrencyType, 56d);
+                    Double rateAmount = rate.getBuy();
+                    Double amount = productAmount / rateAmount;
+                    System.out.println("unknownCurrencyTransfer");
+                    TransactionCurrencyUnknown.unknownCurrencyTransfer(transaction, null, currentDate, selectedExchangeRate, fromWallet, walletSetup, amount, productAmount, productCurrencyType, rate);
+
+                }
+            }
+
+            if (toCurrencyTypeId == setupCurrencyTypeId) {
+                System.out.println("otherProductCurrencyReceiver");
+                TransactionCurrencyOtherProduct.otherProductCurrencyReceiver(transaction, selectedExchangeRate, toWallet, walletSetup, productAmount, productCurrencyType);
+            } else {
+                if (productCurrencyTypeId == toCurrencyTypeId) {
+                    System.out.println("otherSetupCurrencyReceiver");
+                    TransactionCurrencyConvert.otherSetupCurrencyReceiver(transaction, null, currentDate, selectedExchangeRate, toWallet, walletSetup, productAmount);
+                } else {
+                    ExchangeRate rate = DemoModel.initExchangeRate(productCurrencyType, 56d);
+                    Double rateAmount = rate.getBuy();
+                    Double amount = productAmount / rateAmount;
+                    System.out.println("unknownCurrencyReceiver");
+                    TransactionCurrencyUnknown.unknownCurrencyReceiver(transaction, null, currentDate, selectedExchangeRate, toWallet, walletSetup, amount, productAmount, productCurrencyType, rate);
+                }
+            }
+        }
+
+        transaction.setTransactionType(TransactionType.WALLET);
+        return transaction;
+    }
 }

@@ -3,6 +3,7 @@ package com.connectto.wallet.util.currency;
 import com.connectto.general.exception.InternalErrorException;
 import com.connectto.general.model.WalletSetup;
 import com.connectto.wallet.model.transaction.purchase.*;
+import com.connectto.wallet.model.transaction.request.*;
 import com.connectto.wallet.model.transaction.sendmoney.*;
 import com.connectto.wallet.model.wallet.ExchangeRate;
 import com.connectto.wallet.model.wallet.Wallet;
@@ -25,7 +26,7 @@ public class TransactionCurrencyOtherProduct {
                                                         TransactionState transactionState,
                                                         Date currentDate,
                                                         ExchangeRate selectedExchangeRate,
-                                                        Wallet wallet,
+                                                        Wallet fromWallet,
                                                         WalletSetup walletSetup,
                                                         Double amount,
                                                         CurrencyType amountCurrencyType
@@ -33,7 +34,7 @@ public class TransactionCurrencyOtherProduct {
 
         Double rateAmount = selectedExchangeRate.getBuy();
 
-        Long walletId = wallet.getId();
+        Long walletId = fromWallet.getId();
         Long setupId = walletSetup.getId();
 
         CurrencyType setupCurrencyType = walletSetup.getCurrencyType();
@@ -66,17 +67,46 @@ public class TransactionCurrencyOtherProduct {
                     totalPrice
             );
         } else if (TransactionSendMoney.class.isInstance(transaction)) {
+
+            Double currentBalance = fromWallet.getMoney();
+            Double frozenAmount = fromWallet.getFrozenAmount();
+            Double availableAmount = currentBalance - frozenAmount;
+
+            if (availableAmount < totalAmount) {
+                throw new InternalErrorException(Constant.MESSAGE_LESS_MONEY);
+            }
+
             otherProductCurrencyTransfer(
-                    (TransactionSendMoney) transaction, currentDate,
+                    (TransactionSendMoney) transaction, selectedExchangeRate,
                     walletId, setupId,
                     setupCurrencyType, amountCurrencyType,
-                    processTax,  processTaxType,
-                    exchange,  exchangeType,
+                    processTax, processTaxType,
+                    exchange, exchangeType,
+                    amount, price,
+                    totalPrice
+            );
+        } else if (TransactionRequest.class.isInstance(transaction)) {
+
+            Double currentBalance = fromWallet.getMoney();
+            Double frozenAmount = fromWallet.getFrozenAmount();
+            Double availableAmount = currentBalance - frozenAmount;
+
+            if (availableAmount < totalAmount) {
+                throw new InternalErrorException(Constant.MESSAGE_LESS_MONEY);
+            }
+
+            otherProductCurrencyTransfer(
+                    (TransactionRequest) transaction, selectedExchangeRate,
+                    walletId, setupId,
+                    setupCurrencyType, amountCurrencyType,
+                    processTax, processTaxType,
+                    exchange, exchangeType,
                     amount, price,
                     totalPrice
             );
         }
     }
+
 
     private static void otherProductCurrencyTransfer(
             TransactionPurchase transactionPurchase, TransactionState transactionState, Date currentDate,
@@ -89,12 +119,12 @@ public class TransactionCurrencyOtherProduct {
     ) {
 
         TransactionPurchaseExchangeTax purchaseExchangeTax = new TransactionPurchaseExchangeTax(
-                currentDate, walletId, setupId, exchangePurchase, setupCurrencyType,  exchangePurchaseType);
+                currentDate, walletId, setupId, exchangePurchase, setupCurrencyType, exchangePurchaseType);
         TransactionPurchaseExchange purchaseProcessExchange = new TransactionPurchaseExchange(walletId, setupId, currentDate,
                 purchaseProcessTax, setupCurrencyType, purchaseExchangeTax);
 
         TransactionPurchaseProcessTax processTax = new TransactionPurchaseProcessTax(
-                currentDate, walletId, setupId, purchaseProcessTax,  setupCurrencyType, purchaseProcessTaxType, purchaseProcessExchange);
+                currentDate, walletId, setupId, purchaseProcessTax, setupCurrencyType, purchaseProcessTaxType, purchaseProcessExchange);
         TransactionPurchaseTax purchaseTax = new TransactionPurchaseTax(currentDate, walletId, setupId, processTax, purchaseExchangeTax, purchaseExchangeTax);
 
         TransactionPurchaseProcess purchaseProcess = new TransactionPurchaseProcess(transactionState, currentDate, walletId, setupId,
@@ -113,38 +143,171 @@ public class TransactionCurrencyOtherProduct {
     }
 
     private static void otherProductCurrencyTransfer(
-            TransactionSendMoney transactionPurchase, Date currentDate,
+            TransactionSendMoney transactionSendMoney, ExchangeRate exchangeRate,
             Long walletId, Long setupId,
-            CurrencyType setupCurrencyType, CurrencyType amountCurrencyType,
-            Double purchaseProcessTax, TransactionTaxType purchaseProcessTaxType,
-            Double exchangePurchase, TransactionTaxType exchangePurchaseType,
-            Double purchaseAmount, Double purchasePrice,
-            Double purchaseTotalPrice
+            CurrencyType setupCurrencyType, CurrencyType valueCurrencyType,
+            Double sendMoneyProcessTax, TransactionTaxType sendMoneyProcessTaxType,
+            Double exchangeSendMoney, TransactionTaxType exchangeSendMoneyType,
+            Double valueAmount, Double sendMoneyPrice,
+            Double sendMoneyTotalPrice
     ) {
 
-        TransactionSendMoneyExchangeTax purchaseExchangeTax = new TransactionSendMoneyExchangeTax(
-                 walletId, setupId, exchangePurchase, setupCurrencyType,  exchangePurchaseType);
-        TransactionSendMoneyExchange purchaseProcessExchange = new TransactionSendMoneyExchange(walletId, setupId,
-                purchaseProcessTax, setupCurrencyType, purchaseExchangeTax);
+        TransactionSendMoneyExchange valueExchange = new TransactionSendMoneyExchange(walletId, setupId, exchangeRate.getId(), sendMoneyPrice, setupCurrencyType, exchangeRate.getBuy(), valueAmount, valueCurrencyType, sendMoneyPrice, setupCurrencyType);
 
-        TransactionSendMoneyProcessTax processTax = new TransactionSendMoneyProcessTax(
-                 walletId, setupId, purchaseProcessTax,  setupCurrencyType, purchaseProcessTaxType, purchaseProcessExchange);
+        TransactionSendMoneyExchangeTax sendMoneyExchangeTax = new TransactionSendMoneyExchangeTax(walletId, setupId, exchangeSendMoney, setupCurrencyType, exchangeSendMoneyType);
+        TransactionSendMoneyExchange sendMoneyProcessExchange = new TransactionSendMoneyExchange(walletId, setupId, sendMoneyProcessTax, setupCurrencyType, sendMoneyExchangeTax);
 
-        TransactionSendMoneyProcess purchaseProcess = new TransactionSendMoneyProcess( walletId,
-                purchaseAmount, amountCurrencyType,
-                purchasePrice, purchaseTotalPrice, setupCurrencyType,
-                processTax,
-                purchaseProcessExchange);
+        TransactionSendMoneyProcessTax processTax = new TransactionSendMoneyProcessTax(walletId, setupId, sendMoneyProcessTax, setupCurrencyType, sendMoneyProcessTaxType, sendMoneyProcessExchange);
 
-        purchaseProcess.calculateTotalTransfer();
+        TransactionSendMoneyProcess sendMoneyProcess = new TransactionSendMoneyProcess(walletId, valueAmount, valueCurrencyType, valueExchange, sendMoneyPrice, sendMoneyProcessTax, exchangeSendMoney, setupCurrencyType, processTax, sendMoneyProcessExchange);
+        sendMoneyProcess.calculateTotalTransfer();
 
-        transactionPurchase.setFromTransactionProcess(purchaseProcess);
-        transactionPurchase.setFromTotal(purchaseTotalPrice);
-        transactionPurchase.setFromTotalPrice(purchaseTotalPrice);
-        transactionPurchase.setFromTotalPriceCurrencyType(setupCurrencyType);
+        transactionSendMoney.setFromTransactionProcess(sendMoneyProcess);
+        transactionSendMoney.setFromTotalPrice(sendMoneyTotalPrice);
+        transactionSendMoney.setFromTotalPriceCurrencyType(setupCurrencyType);
+        transactionSendMoney.setFromTotal(sendMoneyTotalPrice);
+
     }
 
+    private static void otherProductCurrencyTransfer(
+            TransactionRequest transactionRequest, ExchangeRate exchangeRate,
+            Long walletId, Long setupId,
+            CurrencyType setupCurrencyType, CurrencyType valueCurrencyType,
+            Double requestProcessTax, TransactionTaxType requestProcessTaxType,
+            Double exchangeRequest, TransactionTaxType exchangeRequestType,
+            Double valueAmount, Double requestPrice,
+            Double requestTotalPrice
+    ) {
 
+        TransactionRequestExchange valueExchange = new TransactionRequestExchange(walletId, setupId, exchangeRate.getId(), requestPrice, setupCurrencyType, exchangeRate.getBuy(), valueAmount, valueCurrencyType, requestPrice, setupCurrencyType);
+
+        TransactionRequestExchangeTax requestExchangeTax = new TransactionRequestExchangeTax(walletId, setupId, exchangeRequest, setupCurrencyType, exchangeRequestType);
+        TransactionRequestExchange requestProcessExchange = new TransactionRequestExchange(walletId, setupId, requestProcessTax, setupCurrencyType, requestExchangeTax);
+
+        TransactionRequestProcessTax processTax = new TransactionRequestProcessTax(walletId, setupId, requestProcessTax, setupCurrencyType, requestProcessTaxType, requestProcessExchange);
+
+        TransactionRequestProcess requestProcess = new TransactionRequestProcess(walletId, valueAmount, valueCurrencyType, valueExchange, requestPrice, requestProcessTax, exchangeRequest, setupCurrencyType, processTax, requestProcessExchange);
+        requestProcess.calculateTotalTransfer();
+
+        transactionRequest.setFromTransactionProcess(requestProcess);
+        transactionRequest.setFromTotalPrice(requestTotalPrice);
+        transactionRequest.setFromTotalPriceCurrencyType(setupCurrencyType);
+        transactionRequest.setFromTotal(requestTotalPrice);
+
+    }
+
+    public static <T> void otherProductCurrencyReceiver(T transaction,
+                                                        ExchangeRate selectedExchangeRate,
+                                                        Wallet wallet,
+                                                        WalletSetup walletSetup,
+                                                        Double amount,
+                                                        CurrencyType amountCurrencyType
+    ) throws InternalErrorException {
+
+        Double rateAmount = selectedExchangeRate.getBuy();
+
+        Long walletId = wallet.getId();
+        Long setupId = walletSetup.getId();
+
+        CurrencyType setupCurrencyType = walletSetup.getCurrencyType();
+
+        Double price = amount / rateAmount;//480.000AMD
+        Map<String, Object> processTaxMap = TaxCalculator.calculateReceiverTax(walletSetup, price);
+        TransactionTaxType processTaxType = (TransactionTaxType) processTaxMap.get(Constant.TAX_TYPE_KEY);
+        Double processTax = (Double) processTaxMap.get(Constant.TAX_KEY);
+        Double processTaxPrice = processTax * rateAmount;
+
+        Map<String, Object> exchangeMap = TaxCalculator.calculateReceiverExchangeTax(walletSetup, price);//1000 USD
+        TransactionTaxType exchangeType = (TransactionTaxType) exchangeMap.get(Constant.TAX_TYPE_KEY);
+        Double exchange = (Double) exchangeMap.get(Constant.TAX_KEY);
+        Double exchangePrice = exchange * rateAmount;
+
+        Double totalTaxAmount = processTaxPrice + exchangePrice;
+        Double totalTaxPrice = processTax + exchange;
+        Double totalPrice = price - totalTaxPrice;
+//
+        if (TransactionSendMoney.class.isInstance(transaction)) {
+            if (totalPrice < 0) {
+                throw new InternalErrorException(Constant.MESSAGE_MANY_MONEY);
+            }
+
+            otherProductCurrencyReceiver(
+                    (TransactionSendMoney) transaction, selectedExchangeRate,
+                    walletId, setupId,
+                    setupCurrencyType, amountCurrencyType,
+                    processTax, processTaxType,
+                    exchange, exchangeType,
+                    amount, price,
+                    totalPrice
+            );
+        } else if (TransactionRequest.class.isInstance(transaction)) {
+            if (totalPrice < 0) {
+                throw new InternalErrorException(Constant.MESSAGE_MANY_MONEY);
+            }
+
+            otherProductCurrencyReceiver(
+                    (TransactionRequest) transaction, selectedExchangeRate,
+                    walletId, setupId,
+                    setupCurrencyType, amountCurrencyType,
+                    processTax, processTaxType,
+                    exchange, exchangeType,
+                    amount, price,
+                    totalPrice
+            );
+        }
+    }
+
+    private static void otherProductCurrencyReceiver(
+            TransactionSendMoney transactionSendMoney, ExchangeRate exchangeRate,
+            Long walletId, Long setupId,
+            CurrencyType setupCurrencyType, CurrencyType valueCurrencyType,
+            Double sendMoneyProcessTax, TransactionTaxType sendMoneyProcessTaxType,
+            Double exchangeSendMoney, TransactionTaxType exchangeSendMoneyType,
+            Double valueAmount, Double sendMoneyPrice,
+            Double sendMoneyTotalPrice
+    ) {
+
+        TransactionSendMoneyExchange valueExchange = new TransactionSendMoneyExchange(walletId, setupId, exchangeRate.getId(), sendMoneyPrice, setupCurrencyType, exchangeRate.getBuy(), valueAmount, valueCurrencyType, sendMoneyPrice, setupCurrencyType);
+
+        TransactionSendMoneyExchangeTax sendMoneyExchangeTax = new TransactionSendMoneyExchangeTax(walletId, setupId, exchangeSendMoney, setupCurrencyType, exchangeSendMoneyType);
+        TransactionSendMoneyExchange sendMoneyProcessExchange = new TransactionSendMoneyExchange(walletId, setupId, sendMoneyProcessTax, setupCurrencyType, sendMoneyExchangeTax);
+
+        TransactionSendMoneyProcessTax processTax = new TransactionSendMoneyProcessTax(walletId, setupId, sendMoneyProcessTax, setupCurrencyType, sendMoneyProcessTaxType, sendMoneyProcessExchange);
+
+        TransactionSendMoneyProcess sendMoneyProcess = new TransactionSendMoneyProcess(walletId, valueAmount, valueCurrencyType, valueExchange, sendMoneyPrice, sendMoneyProcessTax, exchangeSendMoney, setupCurrencyType, processTax, sendMoneyProcessExchange);
+        sendMoneyProcess.calculateTotalReceiver();
+
+        transactionSendMoney.setToTransactionProcess(sendMoneyProcess);
+        transactionSendMoney.setToTotalPrice(sendMoneyTotalPrice);
+        transactionSendMoney.setToTotalPriceCurrencyType(setupCurrencyType);
+        transactionSendMoney.setToTotal(sendMoneyTotalPrice);
+    }
+
+    private static void otherProductCurrencyReceiver(
+            TransactionRequest transactionRequest, ExchangeRate exchangeRate,
+            Long walletId, Long setupId,
+            CurrencyType setupCurrencyType, CurrencyType valueCurrencyType,
+            Double requestProcessTax, TransactionTaxType requestProcessTaxType,
+            Double exchangeRequest, TransactionTaxType exchangeRequestType,
+            Double valueAmount, Double requestPrice,
+            Double requestTotalPrice
+    ) {
+
+        TransactionRequestExchange valueExchange = new TransactionRequestExchange(walletId, setupId, exchangeRate.getId(), requestPrice, setupCurrencyType, exchangeRate.getBuy(), valueAmount, valueCurrencyType, requestPrice, setupCurrencyType);
+
+        TransactionRequestExchangeTax requestExchangeTax = new TransactionRequestExchangeTax(walletId, setupId, exchangeRequest, setupCurrencyType, exchangeRequestType);
+        TransactionRequestExchange requestProcessExchange = new TransactionRequestExchange(walletId, setupId, requestProcessTax, setupCurrencyType, requestExchangeTax);
+
+        TransactionRequestProcessTax processTax = new TransactionRequestProcessTax(walletId, setupId, requestProcessTax, setupCurrencyType, requestProcessTaxType, requestProcessExchange);
+
+        TransactionRequestProcess requestProcess = new TransactionRequestProcess(walletId, valueAmount, valueCurrencyType, valueExchange, requestPrice, requestProcessTax, exchangeRequest, setupCurrencyType, processTax, requestProcessExchange);
+        requestProcess.calculateTotalReceiver();
+
+        transactionRequest.setToTransactionProcess(requestProcess);
+        transactionRequest.setToTotalPrice(requestTotalPrice);
+        transactionRequest.setToTotalPriceCurrencyType(setupCurrencyType);
+        transactionRequest.setToTotal(requestTotalPrice);
+    }
 
 
 }

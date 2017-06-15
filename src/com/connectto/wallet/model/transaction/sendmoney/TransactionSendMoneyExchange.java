@@ -52,6 +52,24 @@ public class TransactionSendMoneyExchange {
     }
 
     public TransactionSendMoneyExchange(Long walletId, Long setupId, Long rateId,
+                                        Double setupAmount, CurrencyType setupCurrencyType, Double rate, Double walletBoughtAmount, CurrencyType walletBoughtAmountCurrencyType, Double walletPaidAmount, CurrencyType walletPaidCurrencyType) {
+        this.walletId = walletId;
+        this.setupId = setupId;
+        this.rateId = rateId;
+        this.setupAmount = setupAmount;
+        this.setupCurrencyType = setupCurrencyType;
+        this.rate = rate;
+        this.rateCurrencyType = rateCurrencyType;
+
+        this.walletBoughtAmount = walletBoughtAmount;
+        this.walletBoughtAmountCurrencyType = walletBoughtAmountCurrencyType;
+
+        this.walletPaidAmount = walletPaidAmount;
+        this.walletPaidCurrencyType = walletPaidCurrencyType;
+
+    }
+
+    public TransactionSendMoneyExchange(Long walletId, Long setupId, Long rateId,
                                         Date exchangeDate, Double setupAmount, CurrencyType setupCurrencyType, Double rate, CurrencyType rateCurrencyType,
                                         Double walletBoughtAmount, CurrencyType walletBoughtAmountCurrencyType, Double walletPaidAmount, CurrencyType walletPaidCurrencyType, TransactionSendMoneyExchangeTax exchangeTax) {
         this.walletId = walletId;
