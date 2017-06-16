@@ -76,8 +76,6 @@ public class TransactionCurrencyEqual {
 
 
     public static <T> void equalCurrencyReceiver(T transaction,
-                                                 TransactionState transactionState,
-                                                 Date currentDate,
                                                  Wallet wallet,
                                                  WalletSetup walletSetup,
                                                  Double amount

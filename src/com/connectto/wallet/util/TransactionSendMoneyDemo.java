@@ -125,7 +125,7 @@ public class TransactionSendMoneyDemo {
 
             if (productCurrencyTypeId == toCurrencyTypeId) {
                 System.out.println("equalCurrencyReceiver");
-                TransactionCurrencyEqual.equalCurrencyReceiver(transaction, null, currentDate, toWallet, walletSetup, productAmount);
+                TransactionCurrencyEqual.equalCurrencyReceiver(transaction, toWallet, walletSetup, productAmount);
             } else {
                 System.out.println("otherWalletCurrencyReceiver");
                 TransactionCurrencyOther.otherWalletCurrencyReceiver(transaction, selectedExchangeRate, toWallet, walletSetup, productAmount);
@@ -162,7 +162,7 @@ public class TransactionSendMoneyDemo {
                     Double rateAmount = rate.getBuy();
                     Double amount = productAmount / rateAmount;
                     System.out.println("unknownCurrencyReceiver");
-                    TransactionCurrencyUnknown.unknownCurrencyReceiver(transaction, null, currentDate, selectedExchangeRate, toWallet, walletSetup, amount, productAmount, productCurrencyType, rate);
+                    TransactionCurrencyUnknown.unknownCurrencyReceiver(transaction,  selectedExchangeRate, toWallet, walletSetup, amount, productAmount, productCurrencyType, rate);
                 }
             }
         }

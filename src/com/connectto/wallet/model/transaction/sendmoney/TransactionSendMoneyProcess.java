@@ -128,7 +128,7 @@ public class TransactionSendMoneyProcess {
     }
 
 
-
+    //TransactionCurrencyUnknown
     public TransactionSendMoneyProcess(Long walletId,
                                        Double value, CurrencyType valueCurrencyType, TransactionSendMoneyExchange valueExchange,
                                        Double amount, Double processTaxAmount, CurrencyType setupCurrencyType,

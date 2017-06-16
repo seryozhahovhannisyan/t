@@ -120,6 +120,10 @@ public class TransactionCurrencyOther {
 
         Double totalAmount = amount - totalTaxAmount;
         Double totalPrice = price - totalTaxPrice;
+
+        if (totalAmount <= 0) {
+            throw new InternalErrorException(Constant.MESSAGE_LESS_REQUEST);
+        }
 //
         if (TransactionSendMoney.class.isInstance(transaction)) {
             otherWalletCurrencyReceiver(

@@ -34,11 +34,13 @@ public class CompareTransaction {
 //        TransactionRequest request3= TransactionRequestDemo.initDemoTransactionRequest(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
 //        print(request3, sendMoney3);
 
-        TransactionSendMoney sendMoney4     = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD);
-        TransactionRequest request4= TransactionRequestDemo.initDemoTransactionRequest(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD);
-        print(request4, sendMoney4);
+//        TransactionSendMoney sendMoney4     = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD);
+//        TransactionRequest request4= TransactionRequestDemo.initDemoTransactionRequest(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD);
+//        print(request4, sendMoney4);
 
-
+        TransactionSendMoney sendMoney5 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 56 * 100d, CurrencyType.RUB, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
+        TransactionRequest request5 = TransactionRequestDemo.initDemoTransactionRequest(selectedExchangeRate, 56 * 100d, CurrencyType.RUB, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
+        print(request5, sendMoney5);
 
     }
 
@@ -68,26 +70,36 @@ public class CompareTransaction {
     }
 
     private static void print(TransactionRequest request, TransactionSendMoney sendMoney) {
-        System.out.println("All");
+        System.out.println("A All");
         System.out.println("1 " + request);
         System.out.println("2 " + sendMoney);
-        System.out.println("getProcessStart");
+        System.out.println("B FROM");
         System.out.println("1   " + request.getFromTransactionProcess());
         System.out.println("2   " + sendMoney.getFromTransactionProcess());
-        System.out.println("getTax");
+        System.out.println("C TO");
+        System.out.println("1   " + request.getToTransactionProcess());
+        System.out.println("2   " + sendMoney.getToTransactionProcess());
+        System.out.println("D getTax");
         System.out.println("1   " + request.getTax());
         System.out.println("2   " + sendMoney.getTax());
-        System.out.println("getProcessTax");
+        System.out.println("E getFromProcessTax");
         System.out.println("1   " + request.getTax().getFromProcessTax());
         System.out.println("2   " + sendMoney.getTax().getFromProcessTax());
-        System.out.println("getExchangeTax");
+        System.out.println("F getToProcessTax");
+        System.out.println("1   " + request.getTax().getToProcessTax());
+        System.out.println("2   " + sendMoney.getTax().getToProcessTax());
+        System.out.println("G getFromExchangeTax");
         System.out.println("1   " + request.getTax().getFromExchangeTax());
         System.out.println("2   " + sendMoney.getTax().getFromExchangeTax());
-
-
-        System.out.println("getProcessTax.getExchange");
+        System.out.println("H getToExchangeTax");
+        System.out.println("1   " + request.getTax().getToExchangeTax());
+        System.out.println("2   " + sendMoney.getTax().getToExchangeTax());
+        System.out.println("K getFromProcessTax.getExchange");
         System.out.println("1   " + request.getTax().getFromProcessTax().getExchange());
         System.out.println("2   " + sendMoney.getTax().getFromProcessTax().getExchange());
+        System.out.println("L getFromProcessTax.getExchange");
+        System.out.println("1   " + request.getTax().getToProcessTax().getExchange());
+        System.out.println("2   " + sendMoney.getTax().getToProcessTax().getExchange());
 
     }
 }

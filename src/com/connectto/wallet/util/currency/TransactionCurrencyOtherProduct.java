@@ -226,10 +226,12 @@ public class TransactionCurrencyOtherProduct {
         Double totalTaxPrice = processTax + exchange;
         Double totalPrice = price - totalTaxPrice;
 //
+
+        if (totalPrice < 0) {
+            throw new InternalErrorException(Constant.MESSAGE_LESS_REQUEST);
+        }
+
         if (TransactionSendMoney.class.isInstance(transaction)) {
-            if (totalPrice < 0) {
-                throw new InternalErrorException(Constant.MESSAGE_MANY_MONEY);
-            }
 
             otherProductCurrencyReceiver(
                     (TransactionSendMoney) transaction, selectedExchangeRate,
@@ -241,9 +243,6 @@ public class TransactionCurrencyOtherProduct {
                     totalPrice
             );
         } else if (TransactionRequest.class.isInstance(transaction)) {
-            if (totalPrice < 0) {
-                throw new InternalErrorException(Constant.MESSAGE_MANY_MONEY);
-            }
 
             otherProductCurrencyReceiver(
                     (TransactionRequest) transaction, selectedExchangeRate,

@@ -28,8 +28,12 @@ public class SendMoneyTest {
 //        TransactionSendMoney transaction3 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
 //        print(transaction3);
 
-        TransactionSendMoney transaction4 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD);
-        print(transaction4);
+//        TransactionSendMoney transaction4 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD);
+//        print(transaction4);
+
+        TransactionSendMoney transaction5 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 56 * 100d, CurrencyType.RUB, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
+        print(transaction5);
+
 //
 //        TransactionSendMoney transaction3 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
 //        TransactionSendMoney transaction6 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate2, 480 * 100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD);
@@ -110,21 +114,21 @@ public class SendMoneyTest {
     private static void print(TransactionSendMoney transaction1) {
         System.out.println("All");
         System.out.println("1 " + transaction1);
-        System.out.println("getFromTransactionProcess");
+        System.out.println("TransactionProcesses");
         System.out.println("f   " + transaction1.getFromTransactionProcess());
         System.out.println("t   " + transaction1.getToTransactionProcess());
         System.out.println("getTax");
         System.out.println("1   " + transaction1.getTax());
-        System.out.println("getFromProcessTax");
+        System.out.println("getTaxes");
         System.out.println("f   " + transaction1.getTax().getFromProcessTax());
         System.out.println("t   " + transaction1.getTax().getToProcessTax());
-        System.out.println("getFromExchangeTax");
+        System.out.println("getExchangeTaxes");
         System.out.println("f   " + transaction1.getTax().getFromExchangeTax());
         System.out.println("t   " + transaction1.getTax().getToExchangeTax());
 
 //
 //
-        System.out.println("getFromProcessTax.getExchange");
+        System.out.println("getProcessTaxes.getExchanges");
         System.out.println("f   " + transaction1.getTax().getFromProcessTax().getExchange());
         System.out.println("f   " + transaction1.getTax().getToProcessTax().getExchange());
 
