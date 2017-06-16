@@ -95,6 +95,27 @@ public class TransactionRequestProcess {
         this.exchange = exchange;
     }
 
+    //    TransactionCurrencyOther
+    public TransactionRequestProcess(Long walletId, TransactionRequestExchange valueExchange,
+                                       Double amount, Double processTaxAmount, CurrencyType setupCurrencyType,
+                                       Double price, Double processTaxPrice, CurrencyType walletCurrencyType,
+                                     TransactionRequestProcessTax processTax, TransactionRequestExchange exchange) {
+        this.walletId = walletId;
+
+        this.value = amount;
+        this.valueCurrencyType = setupCurrencyType;
+        this.valueExchange = valueExchange;
+
+        this.amount = amount;
+        this.processTaxAmount = processTaxAmount;
+        this.setupCurrencyType = setupCurrencyType;
+        this.price = price;
+        this.processTaxPrice = processTaxPrice;
+        this.walletCurrencyType = walletCurrencyType;
+        this.processTax = processTax;
+        this.exchange = exchange;
+    }
+
     public TransactionRequestProcess(Long walletId,
                                      Double amount, Double processTaxAmount, CurrencyType setupCurrencyType,
                                      Double price, Double processTaxPrice, CurrencyType walletCurrencyType,

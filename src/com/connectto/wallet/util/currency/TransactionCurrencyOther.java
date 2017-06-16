@@ -3,6 +3,7 @@ package com.connectto.wallet.util.currency;
 import com.connectto.general.exception.InternalErrorException;
 import com.connectto.general.model.WalletSetup;
 import com.connectto.wallet.model.transaction.purchase.*;
+import com.connectto.wallet.model.transaction.request.*;
 import com.connectto.wallet.model.transaction.sendmoney.*;
 import com.connectto.wallet.model.wallet.ExchangeRate;
 import com.connectto.wallet.model.wallet.Wallet;
@@ -68,6 +69,16 @@ public class TransactionCurrencyOther {
         } else if (TransactionSendMoney.class.isInstance(transaction)) {
             otherWalletCurrencyTransfer(
                     (TransactionSendMoney) transaction, selectedExchangeRate,
+                    walletId, setupId,
+                    walletCurrencyType, setupCurrencyType,
+                    processTax, processTaxPrice, processTaxType,
+                    exchange, exchangePrice, exchangeType,
+                    amount, price,
+                    totalAmount, totalPrice
+            );
+        } else if (TransactionRequest.class.isInstance(transaction)) {
+            otherWalletCurrencyTransfer(
+                    (TransactionRequest) transaction, selectedExchangeRate,
                     walletId, setupId,
                     walletCurrencyType, setupCurrencyType,
                     processTax, processTaxPrice, processTaxType,
@@ -183,6 +194,8 @@ public class TransactionCurrencyOther {
         Double rateAmount = selectedExchangeRate.getBuy();
         Long rateId = selectedExchangeRate.getId();
 
+        TransactionSendMoneyExchange valueExchange = new TransactionSendMoneyExchange(walletId, setupId, rateId, sendMoneyAmount, setupCurrencyType, rateAmount,  sendMoneyPrice, walletCurrencyType);
+
         //Info(NOT decrease wallet balance, just show total exchange structure)
         // 10*480=4800
         TransactionSendMoneyExchangeTax processExchangeTax = new TransactionSendMoneyExchangeTax(walletId, setupId,
@@ -200,7 +213,7 @@ public class TransactionCurrencyOther {
 
         TransactionSendMoneyProcessTax processTax = new TransactionSendMoneyProcessTax(walletId, setupId, sendMoneyProcessTax, setupCurrencyType, sendMoneyProcessTaxPrice, walletCurrencyType, sendMoneyProcessTaxType, processExchange);
         TransactionSendMoneyProcess sendMoneyProcess = new TransactionSendMoneyProcess(
-                walletId,
+                walletId, valueExchange,
                 sendMoneyAmount, sendMoneyProcessTax, setupCurrencyType,
                 sendMoneyPrice, sendMoneyProcessTaxPrice, walletCurrencyType,
                 processTax, exchange);
@@ -211,6 +224,52 @@ public class TransactionCurrencyOther {
         transaction.setFromTotalPrice(sendMoneyTotalPrice);
         transaction.setFromTotalPriceCurrencyType(walletCurrencyType);
     }
+
+    private static void otherWalletCurrencyTransfer(
+            TransactionRequest transaction, ExchangeRate selectedExchangeRate,
+            Long walletId, Long setupId,
+            CurrencyType walletCurrencyType, CurrencyType setupCurrencyType,
+            Double requestProcessTax, Double requestProcessTaxPrice, TransactionTaxType requestProcessTaxType,
+            Double exchangeRequest, Double exchangeRequestPrice, TransactionTaxType exchangeRequestType,
+            Double requestAmount, Double requestPrice,
+            Double requestTotalAmount, Double requestTotalPrice
+    ) {
+
+        Double rateAmount = selectedExchangeRate.getBuy();
+        Long rateId = selectedExchangeRate.getId();
+
+        TransactionRequestExchange valueExchange = new TransactionRequestExchange(walletId, setupId, rateId, requestAmount, setupCurrencyType, rateAmount,  requestPrice, walletCurrencyType);
+
+        //Info(NOT decrease wallet balance, just show total exchange structure)
+        // 10*480=4800
+        TransactionRequestExchangeTax processExchangeTax = new TransactionRequestExchangeTax(walletId, setupId,
+                requestProcessTax, setupCurrencyType, requestProcessTaxPrice, walletCurrencyType, requestProcessTaxType);
+        TransactionRequestExchange processExchange = new TransactionRequestExchange(walletId, setupId, rateId,
+                requestProcessTax, setupCurrencyType, rateAmount, walletCurrencyType, requestProcessTaxPrice, walletCurrencyType, processExchangeTax);
+//
+        //Info(NOT decrease wallet balance, just show total exchange structure)
+        // 11*480=5280
+        TransactionRequestExchangeTax exchangeTax = new TransactionRequestExchangeTax(walletId, setupId,
+                exchangeRequest, setupCurrencyType, exchangeRequestPrice, walletCurrencyType, exchangeRequestType);
+        TransactionRequestExchange exchange = new TransactionRequestExchange(walletId, setupId, rateId,
+                exchangeRequest, setupCurrencyType, rateAmount, walletCurrencyType, exchangeRequestPrice, walletCurrencyType, exchangeTax);
+//
+
+        TransactionRequestProcessTax processTax = new TransactionRequestProcessTax(walletId, setupId, requestProcessTax, setupCurrencyType, requestProcessTaxPrice, walletCurrencyType, requestProcessTaxType, processExchange);
+        TransactionRequestProcess requestProcess = new TransactionRequestProcess(
+                walletId, valueExchange,
+                requestAmount, requestProcessTax, setupCurrencyType,
+                requestPrice, requestProcessTaxPrice, walletCurrencyType,
+                processTax, exchange);
+        requestProcess.calculateTotalTransfer();
+
+        transaction.setFromTransactionProcess(requestProcess);
+        transaction.setFromTotal(requestTotalAmount);
+        transaction.setFromTotalPrice(requestTotalPrice);
+        transaction.setFromTotalPriceCurrencyType(walletCurrencyType);
+    }
+
+
 
     private static void otherWalletCurrencyReceiver(
             TransactionSendMoney transaction, ExchangeRate selectedExchangeRate,
@@ -242,7 +301,7 @@ public class TransactionCurrencyOther {
 
         TransactionSendMoneyProcessTax processTax = new TransactionSendMoneyProcessTax(walletId, setupId, sendMoneyProcessTax, setupCurrencyType, sendMoneyProcessTaxPrice, walletCurrencyType, sendMoneyProcessTaxType, processExchange);
         TransactionSendMoneyProcess sendMoneyProcess = new TransactionSendMoneyProcess(
-                walletId,
+                walletId, null,
                 sendMoneyAmount, sendMoneyProcessTax, setupCurrencyType,
                 sendMoneyPrice, sendMoneyProcessTaxPrice, walletCurrencyType,
                 processTax, exchange);

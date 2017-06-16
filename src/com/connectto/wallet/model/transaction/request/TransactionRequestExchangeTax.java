@@ -28,6 +28,19 @@ public class TransactionRequestExchangeTax {
 
     public TransactionRequestExchangeTax(Long walletId, Long setupId,
                                            Double exchangeTax, CurrencyType exchangeTaxCurrencyType,
+                                           Double exchangeTaxPrice, CurrencyType exchangeTaxPriceCurrencyType,
+                                           TransactionTaxType exchangeTaxType) {
+        this.walletId = walletId;
+        this.setupId = setupId;
+        this.exchangeTax = exchangeTax;
+        this.exchangeTaxCurrencyType = exchangeTaxCurrencyType;
+        this.exchangeTaxPrice = exchangeTaxPrice;
+        this.exchangeTaxPriceCurrencyType = exchangeTaxPriceCurrencyType;
+        this.exchangeTaxType = exchangeTaxType;
+    }
+
+    public TransactionRequestExchangeTax(Long walletId, Long setupId,
+                                           Double exchangeTax, CurrencyType exchangeTaxCurrencyType,
                                            TransactionTaxType exchangeTaxType) {
         this.walletId = walletId;
         this.setupId = setupId;

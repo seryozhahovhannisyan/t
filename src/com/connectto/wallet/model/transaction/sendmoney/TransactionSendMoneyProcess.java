@@ -106,11 +106,17 @@ public class TransactionSendMoneyProcess {
         this.exchange = exchange;
     }
 
-    public TransactionSendMoneyProcess(Long walletId,
+//    TransactionCurrencyOther
+    public TransactionSendMoneyProcess(Long walletId, TransactionSendMoneyExchange valueExchange,
                                        Double amount, Double processTaxAmount, CurrencyType setupCurrencyType,
                                        Double price, Double processTaxPrice, CurrencyType walletCurrencyType,
                                        TransactionSendMoneyProcessTax processTax, TransactionSendMoneyExchange exchange) {
         this.walletId = walletId;
+
+        this.value = amount;
+        this.valueCurrencyType = setupCurrencyType;
+        this.valueExchange = valueExchange;
+
         this.amount = amount;
         this.processTaxAmount = processTaxAmount;
         this.setupCurrencyType = setupCurrencyType;

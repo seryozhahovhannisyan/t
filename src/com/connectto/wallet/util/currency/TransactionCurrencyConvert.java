@@ -232,6 +232,8 @@ public class TransactionCurrencyConvert {
             Double sendMoneyTotalAmount, Double sendMoneyTotalPrice
     ) {
 
+
+
         Double rateAmount = selectedExchangeRate.getBuy();
         Long rateId = selectedExchangeRate.getId();
 
@@ -252,7 +254,7 @@ public class TransactionCurrencyConvert {
 
         TransactionSendMoneyProcessTax processTax = new TransactionSendMoneyProcessTax(walletId, setupId, sendMoneyProcessTax, setupCurrencyType, sendMoneyProcessTaxPrice, walletCurrencyType, sendMoneyProcessTaxType, processExchange);
         TransactionSendMoneyProcess sendMoneyProcess = new TransactionSendMoneyProcess(
-                walletId,
+                walletId, null,
                 sendMoneyAmount, sendMoneyProcessTax, setupCurrencyType,
                 sendMoneyPrice, sendMoneyProcessTaxPrice, walletCurrencyType,
                 processTax, exchange);
@@ -294,7 +296,7 @@ public class TransactionCurrencyConvert {
 
         TransactionSendMoneyProcessTax processTax = new TransactionSendMoneyProcessTax(walletId, setupId, sendMoneyProcessTax, setupCurrencyType, sendMoneyProcessTaxPrice, walletCurrencyType, sendMoneyProcessTaxType, processExchange);
         TransactionSendMoneyProcess sendMoneyProcess = new TransactionSendMoneyProcess(
-                walletId,
+                walletId, null,
                 sendMoneyAmount, sendMoneyProcessTax, setupCurrencyType,
                 sendMoneyPrice, sendMoneyProcessTaxPrice, walletCurrencyType,
                 processTax, exchange);
