@@ -27,6 +27,9 @@ public enum TransactionState {
     CHARGE_AMOUNT(10, "charge_amount", "when transaction is successfully done and transferring was completed walletSetup receiving_amount will minused and balance plussed immediately"),
     FUTURE_PAYMENT(11, "future payment", "when driver get cash money we will keep future payment that he will pay thiers administrator");
 
+
+
+
     TransactionState(int id, String state, String description) {
         this.id = id;
         this.state = state;

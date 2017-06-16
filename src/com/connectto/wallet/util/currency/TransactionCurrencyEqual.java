@@ -12,6 +12,8 @@ import com.connectto.wallet.model.transaction.request.TransactionRequestProcessT
 import com.connectto.wallet.model.transaction.sendmoney.TransactionSendMoney;
 import com.connectto.wallet.model.transaction.sendmoney.TransactionSendMoneyProcess;
 import com.connectto.wallet.model.transaction.sendmoney.TransactionSendMoneyProcessTax;
+import com.connectto.wallet.model.transaction.transfer.TransferTax;
+import com.connectto.wallet.model.transaction.transfer.TransferTransaction;
 import com.connectto.wallet.model.wallet.Wallet;
 import com.connectto.wallet.model.wallet.lcp.CurrencyType;
 import com.connectto.wallet.model.wallet.lcp.TransactionState;
@@ -48,6 +50,8 @@ public class TransactionCurrencyEqual {
 //
         if (TransactionPurchase.class.isInstance(transaction)) {
             equalCurrencyTransfer((TransactionPurchase) transaction, currentDate, fromWalletId, setupId, currencyType, tax, taxType, amount, totalAmount, transactionState);
+        } else if (TransferTransaction.class.isInstance(transaction)) {
+            equalCurrencyTransfer((TransferTransaction) transaction, currentDate, fromWalletId, setupId, amount, currencyType);
         } else if (TransactionSendMoney.class.isInstance(transaction)) {
 
             Double currentBalance = fromWallet.getMoney();
@@ -120,6 +124,20 @@ public class TransactionCurrencyEqual {
         transactionPurchase.setTax(purchaseTax);
     }
 
+    private static void equalCurrencyTransfer(TransferTransaction transactionPurchase, Date currentDate,
+                                              Long walletId, Long setupId,
+                                              Double totalAmount, CurrencyType currencyType) throws InternalErrorException {
+
+        TransferTax purchaseTax = new TransferTax(currentDate, walletId, setupId);
+
+        transactionPurchase.setWalletTotalPrice(totalAmount);
+        transactionPurchase.setWalletTotalPriceCurrencyType(currencyType);
+
+        transactionPurchase.setSetupTotalAmount(totalAmount);
+        transactionPurchase.setSetupTotalAmountCurrencyType(currencyType);
+        transactionPurchase.setTax(purchaseTax);
+    }
+
 
     private static void equalCurrencyTransfer(TransactionSendMoney transaction,
                                               Long walletId, Long setupId, CurrencyType currencyType,
@@ -184,7 +202,6 @@ public class TransactionCurrencyEqual {
         transaction.setToTotalPrice(totalAmount);
         transaction.setToTotalPriceCurrencyType(currencyType);
     }
-
 
 
 }

@@ -5,6 +5,10 @@ import com.connectto.general.model.WalletSetup;
 import com.connectto.wallet.model.transaction.purchase.*;
 import com.connectto.wallet.model.transaction.request.*;
 import com.connectto.wallet.model.transaction.sendmoney.*;
+import com.connectto.wallet.model.transaction.transfer.TransferExchange;
+import com.connectto.wallet.model.transaction.transfer.TransferExchangeTax;
+import com.connectto.wallet.model.transaction.transfer.TransferTax;
+import com.connectto.wallet.model.transaction.transfer.TransferTransaction;
 import com.connectto.wallet.model.wallet.ExchangeRate;
 import com.connectto.wallet.model.wallet.Wallet;
 import com.connectto.wallet.model.wallet.lcp.CurrencyType;
@@ -65,6 +69,14 @@ public class TransactionCurrencyOther {
                     exchange, exchangePrice, exchangeType,
                     amount, price,
                     totalAmount, totalPrice
+            );
+        } else if (TransferTransaction.class.isInstance(transaction)) {
+            otherWalletCurrency(
+                    (TransferTransaction) transaction, currentDate, selectedExchangeRate,
+                    walletId, setupId,
+                    walletCurrencyType, setupCurrencyType,
+                    exchange, exchangePrice, exchangeType,
+                    amount, price
             );
         } else if (TransactionSendMoney.class.isInstance(transaction)) {
             otherWalletCurrencyTransfer(
@@ -170,7 +182,7 @@ public class TransactionCurrencyOther {
         TransactionPurchaseProcessTax processTax = new TransactionPurchaseProcessTax(
                 currentDate, walletId, setupId,
                 purchaseProcessTax, setupCurrencyType,
-                purchaseProcessTaxPrice,  walletCurrencyType,
+                purchaseProcessTaxPrice, walletCurrencyType,
                 purchaseProcessTaxType, purchaseProcessExchange);
         TransactionPurchaseTax purchaseTax =
                 new TransactionPurchaseTax(currentDate, walletId, setupId, processTax, purchaseExchangeTax,
@@ -193,6 +205,39 @@ public class TransactionCurrencyOther {
     }
 
 
+    private static void otherWalletCurrency(
+            TransferTransaction transfer, Date currentDate, ExchangeRate selectedExchangeRate,
+            Long walletId, Long setupId,
+            CurrencyType walletCurrencyType, CurrencyType setupCurrencyType,
+            Double exchangeTransfer, Double exchangeTransferPrice, TransactionTaxType exchangeTransferType,
+            Double transferAmount, Double transferPrice
+    ) throws InternalErrorException {
+
+        Double totalPrice = transferPrice - exchangeTransferPrice;
+        Double totalAmount = transferAmount - exchangeTransfer;
+
+        if (totalAmount <= 0) {
+            throw new InternalErrorException(Constant.MESSAGE_LESS_MONEY);
+        }
+
+        Double rateAmount = selectedExchangeRate.getBuy();
+        Long rateId = selectedExchangeRate.getId();
+
+        TransferExchangeTax transferExchangeTax = new TransferExchangeTax(currentDate, walletId, setupId, exchangeTransfer, setupCurrencyType, exchangeTransferPrice, walletCurrencyType, exchangeTransferType);
+        TransferExchange transferExchange = new TransferExchange(walletId, setupId, rateId, currentDate, transferAmount, setupCurrencyType, rateAmount, walletCurrencyType, transferPrice, walletCurrencyType, transferExchangeTax);
+
+        TransferTax transferTax = new TransferTax(currentDate, walletId, setupId, transferExchangeTax);
+
+        transfer.setTransferExchange(transferExchange);
+        transfer.setWalletTotalPrice(totalPrice);
+        transfer.setWalletTotalPriceCurrencyType(walletCurrencyType);
+
+        transfer.setSetupTotalAmount(totalAmount);
+        transfer.setSetupTotalAmountCurrencyType(setupCurrencyType);
+        transfer.setTax(transferTax);
+    }
+
+
     private static void otherWalletCurrencyTransfer(
             TransactionSendMoney transaction, ExchangeRate selectedExchangeRate,
             Long walletId, Long setupId,
@@ -206,7 +251,7 @@ public class TransactionCurrencyOther {
         Double rateAmount = selectedExchangeRate.getBuy();
         Long rateId = selectedExchangeRate.getId();
 
-        TransactionSendMoneyExchange valueExchange = new TransactionSendMoneyExchange(walletId, setupId, rateId, sendMoneyAmount, setupCurrencyType, rateAmount,  sendMoneyPrice, walletCurrencyType);
+        TransactionSendMoneyExchange valueExchange = new TransactionSendMoneyExchange(walletId, setupId, rateId, sendMoneyAmount, setupCurrencyType, rateAmount, sendMoneyPrice, walletCurrencyType);
 
         //Info(NOT decrease wallet balance, just show total exchange structure)
         // 10*480=4800
@@ -250,7 +295,7 @@ public class TransactionCurrencyOther {
         Double rateAmount = selectedExchangeRate.getBuy();
         Long rateId = selectedExchangeRate.getId();
 
-        TransactionRequestExchange valueExchange = new TransactionRequestExchange(walletId, setupId, rateId, requestAmount, setupCurrencyType, rateAmount,  requestPrice, walletCurrencyType);
+        TransactionRequestExchange valueExchange = new TransactionRequestExchange(walletId, setupId, rateId, requestAmount, setupCurrencyType, rateAmount, requestPrice, walletCurrencyType);
 
         //Info(NOT decrease wallet balance, just show total exchange structure)
         // 10*480=4800
@@ -282,7 +327,6 @@ public class TransactionCurrencyOther {
     }
 
 
-
     private static void otherWalletCurrencyReceiver(
             TransactionSendMoney transaction, ExchangeRate selectedExchangeRate,
             Long walletId, Long setupId,
@@ -296,7 +340,7 @@ public class TransactionCurrencyOther {
         Double rateAmount = selectedExchangeRate.getBuy();
         Long rateId = selectedExchangeRate.getId();
 
-        TransactionSendMoneyExchange valueExchange =  new TransactionSendMoneyExchange(walletId, setupId, rateId, sendMoneyAmount, setupCurrencyType, rateAmount,  sendMoneyPrice, walletCurrencyType);
+        TransactionSendMoneyExchange valueExchange = new TransactionSendMoneyExchange(walletId, setupId, rateId, sendMoneyAmount, setupCurrencyType, rateAmount, sendMoneyPrice, walletCurrencyType);
 
         //Info(NOT decrease wallet balance, just show total exchange structure)
         // 10*480=4800
@@ -340,7 +384,7 @@ public class TransactionCurrencyOther {
         Double rateAmount = selectedExchangeRate.getBuy();
         Long rateId = selectedExchangeRate.getId();
 
-        TransactionRequestExchange valueExchange =  new TransactionRequestExchange(walletId, setupId, rateId, requestAmount, setupCurrencyType, rateAmount,  requestPrice, walletCurrencyType);
+        TransactionRequestExchange valueExchange = new TransactionRequestExchange(walletId, setupId, rateId, requestAmount, setupCurrencyType, rateAmount, requestPrice, walletCurrencyType);
 
         //Info(NOT decrease wallet balance, just show total exchange structure)
         // 10*480=4800
