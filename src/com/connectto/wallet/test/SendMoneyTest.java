@@ -31,8 +31,13 @@ public class SendMoneyTest {
 //        TransactionSendMoney transaction4 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD);
 //        print(transaction4);
 
-        TransactionSendMoney transaction5 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 56 * 100d, CurrencyType.RUB, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
-        print(transaction5);
+//        TransactionSendMoney transaction5 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 56 * 100d, CurrencyType.RUB, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
+//        print(transaction5);
+
+        TransactionSendMoney transaction6 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 480 * 100d, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
+        print(transaction6);
+
+
 
 //
 //        TransactionSendMoney transaction3 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);

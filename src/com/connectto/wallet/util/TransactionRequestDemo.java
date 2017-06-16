@@ -155,7 +155,7 @@ public class TransactionRequestDemo {
             } else {
                 if (productCurrencyTypeId == toCurrencyTypeId) {
                     System.out.println("otherSetupCurrencyReceiver");
-                    TransactionCurrencyConvert.otherSetupCurrencyReceiver(transaction, null, currentDate, selectedExchangeRate, toWallet, walletSetup, productAmount);
+                    TransactionCurrencyConvert.otherSetupCurrencyReceiver(transaction, selectedExchangeRate, toWallet, walletSetup, productAmount);
                 } else {
                     ExchangeRate rate = DemoModel.initExchangeRate(productCurrencyType, 56d);
                     Double rateAmount = rate.getBuy();

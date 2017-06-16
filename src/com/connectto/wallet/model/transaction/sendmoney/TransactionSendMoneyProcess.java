@@ -106,7 +106,7 @@ public class TransactionSendMoneyProcess {
         this.exchange = exchange;
     }
 
-//    TransactionCurrencyOther
+//    TransactionCurrencyOther/ TransactionCurrencyConvert
     public TransactionSendMoneyProcess(Long walletId, TransactionSendMoneyExchange valueExchange,
                                        Double amount, Double processTaxAmount, CurrencyType setupCurrencyType,
                                        Double price, Double processTaxPrice, CurrencyType walletCurrencyType,

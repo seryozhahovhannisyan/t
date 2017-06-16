@@ -144,10 +144,10 @@ public class TransactionCurrencyEqual {
     ) throws InternalErrorException {
 
         TransactionRequestProcessTax processTax = new TransactionRequestProcessTax(walletId, setupId, tax, currencyType, taxType);
-        TransactionRequestProcess process = new TransactionRequestProcess(walletId, amount, tax, currencyType, processTax);
-        process.calculateTotalTransfer();
+        TransactionRequestProcess requestProcess = new TransactionRequestProcess(walletId, amount, tax, currencyType, processTax);
+        requestProcess.calculateTotalTransfer();
 
-        transaction.setFromTransactionProcess(process);
+        transaction.setFromTransactionProcess(requestProcess);
         transaction.setFromTotalPrice(totalAmount);
         transaction.setFromTotal(totalAmount);
         transaction.setFromTotalPriceCurrencyType(currencyType);
@@ -176,10 +176,10 @@ public class TransactionCurrencyEqual {
 
 
         TransactionRequestProcessTax processTax = new TransactionRequestProcessTax(walletId, setupId, tax, currencyType, taxType);
-        TransactionRequestProcess process = new TransactionRequestProcess(walletId, amount, tax, currencyType, processTax);
-        process.calculateTotalReceiver();
+        TransactionRequestProcess requestProcess = new TransactionRequestProcess(walletId, amount, tax, currencyType, processTax);
+        requestProcess.calculateTotalReceiver();
 
-        transaction.setToTransactionProcess(process);
+        transaction.setToTransactionProcess(requestProcess);
         transaction.setToTotal(totalAmount);
         transaction.setToTotalPrice(totalAmount);
         transaction.setToTotalPriceCurrencyType(currencyType);

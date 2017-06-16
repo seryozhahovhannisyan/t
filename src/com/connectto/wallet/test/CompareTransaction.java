@@ -38,10 +38,13 @@ public class CompareTransaction {
 //        TransactionRequest request4= TransactionRequestDemo.initDemoTransactionRequest(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD);
 //        print(request4, sendMoney4);
 
-        TransactionSendMoney sendMoney5 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 56 * 100d, CurrencyType.RUB, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
-        TransactionRequest request5 = TransactionRequestDemo.initDemoTransactionRequest(selectedExchangeRate, 56 * 100d, CurrencyType.RUB, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
-        print(request5, sendMoney5);
+//        TransactionSendMoney sendMoney5 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 56 * 100d, CurrencyType.RUB, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
+//        TransactionRequest request5 = TransactionRequestDemo.initDemoTransactionRequest(selectedExchangeRate, 56 * 100d, CurrencyType.RUB, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
+//        print(request5, sendMoney5);
 
+        TransactionSendMoney sendMoney6 = TransactionSendMoneyDemo.initTransaction(selectedExchangeRate, 480 * 100d, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
+        TransactionRequest request6 = TransactionRequestDemo.initDemoTransactionRequest(selectedExchangeRate, 480 * 100d, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.AMD, CurrencyType.USD);
+        print(request6, sendMoney6);
     }
 
 
