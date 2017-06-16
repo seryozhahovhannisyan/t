@@ -25,8 +25,13 @@ public class RequestTest {
 //        TransactionRequest transaction2 = TransactionRequestDemo.initDemoTransactionRequest(selectedExchangeRate, 480 * 100d, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD, CurrencyType.USD);
 //        print(transaction2);
 
-        TransactionRequest transaction3 = TransactionRequestDemo.initDemoTransactionRequest(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
-        print(transaction3);
+//        TransactionRequest transaction3 = TransactionRequestDemo.initDemoTransactionRequest(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD, CurrencyType.USD);
+//        print(transaction3);
+
+        TransactionRequest transaction4 = TransactionRequestDemo.initDemoTransactionRequest(selectedExchangeRate, 100d, CurrencyType.USD, CurrencyType.USD, CurrencyType.AMD, CurrencyType.USD);
+        print(transaction4);
+
+
 
 
     }

@@ -128,7 +128,7 @@ public class TransactionSendMoneyDemo {
                 TransactionCurrencyEqual.equalCurrencyReceiver(transaction, null, currentDate, toWallet, walletSetup, productAmount);
             } else {
                 System.out.println("otherWalletCurrencyReceiver");
-                TransactionCurrencyOther.otherWalletCurrencyReceiver(transaction, null, currentDate, selectedExchangeRate, toWallet, walletSetup, productAmount);
+                TransactionCurrencyOther.otherWalletCurrencyReceiver(transaction, selectedExchangeRate, toWallet, walletSetup, productAmount);
             }
 
         } else {
