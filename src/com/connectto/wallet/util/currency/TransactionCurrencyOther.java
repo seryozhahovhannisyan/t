@@ -2,6 +2,10 @@ package com.connectto.wallet.util.currency;
 
 import com.connectto.general.exception.InternalErrorException;
 import com.connectto.general.model.WalletSetup;
+import com.connectto.wallet.model.transaction.merchant.transfer.MerchantTransferExchange;
+import com.connectto.wallet.model.transaction.merchant.transfer.MerchantTransferExchangeTax;
+import com.connectto.wallet.model.transaction.merchant.transfer.MerchantTransferTax;
+import com.connectto.wallet.model.transaction.merchant.transfer.MerchantTransferTransaction;
 import com.connectto.wallet.model.transaction.purchase.*;
 import com.connectto.wallet.model.transaction.request.*;
 import com.connectto.wallet.model.transaction.sendmoney.*;
@@ -69,6 +73,14 @@ public class TransactionCurrencyOther {
                     exchange, exchangePrice, exchangeType,
                     amount, price,
                     totalAmount, totalPrice
+            );
+        } else if (MerchantTransferTransaction.class.isInstance(transaction)) {
+            otherWalletCurrency(
+                    (MerchantTransferTransaction) transaction, currentDate, selectedExchangeRate,
+                    walletId, setupId,
+                    walletCurrencyType, setupCurrencyType,
+                    exchange, exchangePrice, exchangeType,
+                    amount, price
             );
         } else if (TransferTransaction.class.isInstance(transaction)) {
             otherWalletCurrency(
@@ -206,6 +218,39 @@ public class TransactionCurrencyOther {
 
 
     private static void otherWalletCurrency(
+            MerchantTransferTransaction transfer, Date currentDate, ExchangeRate selectedExchangeRate,
+            Long walletId, Long setupId,
+            CurrencyType walletCurrencyType, CurrencyType setupCurrencyType,
+            Double exchangeTransfer, Double exchangeTransferPrice, TransactionTaxType exchangeTransferType,
+            Double transferAmount, Double transferPrice
+    ) throws InternalErrorException {
+
+        Double totalPrice = transferPrice - exchangeTransferPrice;
+        Double totalAmount = exchangeTransfer;
+
+        if (totalPrice <= 0) {
+            throw new InternalErrorException(Constant.MESSAGE_LESS_MONEY);
+        }
+
+        Double rateAmount = selectedExchangeRate.getBuy();
+        Long rateId = selectedExchangeRate.getId();
+
+        MerchantTransferExchangeTax transferExchangeTax = new MerchantTransferExchangeTax(currentDate, walletId, setupId, exchangeTransfer, setupCurrencyType, exchangeTransferPrice, walletCurrencyType, exchangeTransferType);
+        MerchantTransferExchange transferExchange = new MerchantTransferExchange(walletId, setupId, rateId, currentDate, transferAmount, setupCurrencyType, rateAmount, walletCurrencyType, transferPrice, walletCurrencyType, transferExchangeTax);
+
+        MerchantTransferTax transferTax = new MerchantTransferTax(currentDate, walletId, setupId, transferExchangeTax);
+
+        transfer.setMerchantTransferExchange(transferExchange);
+        transfer.setWalletTotalPrice(totalPrice);
+        transfer.setWalletTotalPriceCurrencyType(walletCurrencyType);
+
+        transfer.setSetupTotalAmount(totalAmount);
+        transfer.setSetupTotalAmountCurrencyType(setupCurrencyType);
+        transfer.setTax(transferTax);
+    }
+
+
+    private static void otherWalletCurrency(
             TransferTransaction transfer, Date currentDate, ExchangeRate selectedExchangeRate,
             Long walletId, Long setupId,
             CurrencyType walletCurrencyType, CurrencyType setupCurrencyType,
@@ -216,7 +261,7 @@ public class TransactionCurrencyOther {
         Double totalPrice = transferPrice - exchangeTransferPrice;
         Double totalAmount = transferAmount - exchangeTransfer;
 
-        if (totalAmount <= 0) {
+        if (totalPrice <= 0) {
             throw new InternalErrorException(Constant.MESSAGE_LESS_MONEY);
         }
 

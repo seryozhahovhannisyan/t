@@ -1,4 +1,4 @@
-package com.connectto.wallet.model.transaction.transfer;
+package com.connectto.wallet.model.transaction.merchant.transfer;
 
 import com.connectto.wallet.model.wallet.lcp.CurrencyType;
 
@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by Serozh on 11/9/2016.
  */
-public class TransferExchange {
+public class MerchantTransferExchange {
 
     private Long id;
     //who
@@ -31,11 +31,11 @@ public class TransferExchange {
     private Double walletPaidAmount;
     private CurrencyType walletPaidCurrencyType;
     //
-    private TransferExchangeTax exchangeTax;
+    private MerchantTransferExchangeTax exchangeTax;
     private Long exchangeTaxId;
 
-    public TransferExchange(Long walletId, Long setupId, Long rateId,
-                            Date exchangeDate, Double setupAmount, CurrencyType setupCurrencyType, Double rate, CurrencyType rateCurrencyType, Double walletPaidAmount, CurrencyType walletPaidCurrencyType, TransferExchangeTax exchangeTax) {
+    public MerchantTransferExchange(Long walletId, Long setupId, Long rateId,
+                            Date exchangeDate, Double setupAmount, CurrencyType setupCurrencyType, Double rate, CurrencyType rateCurrencyType, Double walletPaidAmount, CurrencyType walletPaidCurrencyType, MerchantTransferExchangeTax exchangeTax) {
         this.walletId = walletId;
         this.setupId = setupId;
         this.rateId = rateId;
@@ -148,11 +148,11 @@ public class TransferExchange {
         this.walletPaidCurrencyType = walletPaidCurrencyType;
     }
 
-    public TransferExchangeTax getExchangeTax() {
+    public MerchantTransferExchangeTax getExchangeTax() {
         return exchangeTax;
     }
 
-    public void setExchangeTax(TransferExchangeTax exchangeTax) {
+    public void setExchangeTax(MerchantTransferExchangeTax exchangeTax) {
         this.exchangeTax = exchangeTax;
     }
 
@@ -182,7 +182,7 @@ public class TransferExchange {
 
     @Override
     public String toString() {
-        return "TransferExchange {" +
+        return "MerchantTransferExchange {" +
 //                "id=" + id +
 //                ", walletId=" + walletId +
 //                ", setupId=" + setupId +

@@ -2,6 +2,8 @@ package com.connectto.wallet.util.currency;
 
 import com.connectto.general.exception.InternalErrorException;
 import com.connectto.general.model.WalletSetup;
+import com.connectto.wallet.model.transaction.merchant.transfer.MerchantTransferTax;
+import com.connectto.wallet.model.transaction.merchant.transfer.MerchantTransferTransaction;
 import com.connectto.wallet.model.transaction.purchase.TransactionPurchase;
 import com.connectto.wallet.model.transaction.purchase.TransactionPurchaseProcess;
 import com.connectto.wallet.model.transaction.purchase.TransactionPurchaseProcessTax;
@@ -50,6 +52,8 @@ public class TransactionCurrencyEqual {
 //
         if (TransactionPurchase.class.isInstance(transaction)) {
             equalCurrencyTransfer((TransactionPurchase) transaction, currentDate, fromWalletId, setupId, currencyType, tax, taxType, amount, totalAmount, transactionState);
+        } else if (MerchantTransferTransaction.class.isInstance(transaction)) {
+            equalCurrencyTransfer((MerchantTransferTransaction) transaction, currentDate, fromWalletId, setupId, amount, currencyType);
         } else if (TransferTransaction.class.isInstance(transaction)) {
             equalCurrencyTransfer((TransferTransaction) transaction, currentDate, fromWalletId, setupId, amount, currencyType);
         } else if (TransactionSendMoney.class.isInstance(transaction)) {
@@ -124,18 +128,33 @@ public class TransactionCurrencyEqual {
         transactionPurchase.setTax(purchaseTax);
     }
 
-    private static void equalCurrencyTransfer(TransferTransaction transactionPurchase, Date currentDate,
+    private static void equalCurrencyTransfer(MerchantTransferTransaction merchantTransferTransaction, Date currentDate,
                                               Long walletId, Long setupId,
                                               Double totalAmount, CurrencyType currencyType) throws InternalErrorException {
 
-        TransferTax purchaseTax = new TransferTax(currentDate, walletId, setupId);
+        MerchantTransferTax merchantTransferTax = new MerchantTransferTax(currentDate, walletId, setupId);
 
-        transactionPurchase.setWalletTotalPrice(totalAmount);
-        transactionPurchase.setWalletTotalPriceCurrencyType(currencyType);
+        merchantTransferTransaction.setWalletTotalPrice(totalAmount);
+        merchantTransferTransaction.setWalletTotalPriceCurrencyType(currencyType);
 
-        transactionPurchase.setSetupTotalAmount(totalAmount);
-        transactionPurchase.setSetupTotalAmountCurrencyType(currencyType);
-        transactionPurchase.setTax(purchaseTax);
+        merchantTransferTransaction.setSetupTotalAmount(0d);
+        merchantTransferTransaction.setSetupTotalAmountCurrencyType(currencyType);
+        merchantTransferTransaction.setTax(merchantTransferTax);
+    }
+
+
+    private static void equalCurrencyTransfer(TransferTransaction transferTransaction, Date currentDate,
+                                              Long walletId, Long setupId,
+                                              Double totalAmount, CurrencyType currencyType) throws InternalErrorException {
+
+        TransferTax transferTax = new TransferTax(currentDate, walletId, setupId);
+
+        transferTransaction.setWalletTotalPrice(totalAmount);
+        transferTransaction.setWalletTotalPriceCurrencyType(currencyType);
+
+        transferTransaction.setSetupTotalAmount(totalAmount);
+        transferTransaction.setSetupTotalAmountCurrencyType(currencyType);
+        transferTransaction.setTax(transferTax);
     }
 
 

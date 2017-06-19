@@ -19,12 +19,26 @@ public class MerchantTransferTransaction {
     private Integer tsmCompanyId;
     //to
     private Long walletId;
+    //tax to
+    private Long walletSetupId;
 
     private Date actionDate;
 
     //1000USD transfer amount
     private Double transferAmount;
     private CurrencyType transferAmountCurrencyType;
+    private MerchantTransferExchange merchantTransferExchange;
+
+    private Double walletTotalPrice;
+    private CurrencyType walletTotalPriceCurrencyType;
+
+    private Double setupTotalAmount;
+    private CurrencyType setupTotalAmountCurrencyType;
+
+    private MerchantTransferTax tax;
+
+    private Long merchantTransferExchangeId;
+    private Long taxId;
 
     private boolean isEncoded;
 
@@ -75,6 +89,14 @@ public class MerchantTransferTransaction {
         this.tsmCompanyId = tsmCompanyId;
     }
 
+    public Long getWalletSetupId() {
+        return walletSetupId;
+    }
+
+    public void setWalletSetupId(Long walletSetupId) {
+        this.walletSetupId = walletSetupId;
+    }
+
     public Long getWalletId() {
         return walletId;
     }
@@ -107,6 +129,70 @@ public class MerchantTransferTransaction {
         this.transferAmountCurrencyType = transferAmountCurrencyType;
     }
 
+    public MerchantTransferExchange getMerchantTransferExchange() {
+        return merchantTransferExchange;
+    }
+
+    public void setMerchantTransferExchange(MerchantTransferExchange merchantTransferExchange) {
+        this.merchantTransferExchange = merchantTransferExchange;
+    }
+
+    public Double getWalletTotalPrice() {
+        return walletTotalPrice;
+    }
+
+    public void setWalletTotalPrice(Double walletTotalPrice) {
+        this.walletTotalPrice = walletTotalPrice;
+    }
+
+    public CurrencyType getWalletTotalPriceCurrencyType() {
+        return walletTotalPriceCurrencyType;
+    }
+
+    public void setWalletTotalPriceCurrencyType(CurrencyType walletTotalPriceCurrencyType) {
+        this.walletTotalPriceCurrencyType = walletTotalPriceCurrencyType;
+    }
+
+    public Double getSetupTotalAmount() {
+        return setupTotalAmount;
+    }
+
+    public void setSetupTotalAmount(Double setupTotalAmount) {
+        this.setupTotalAmount = setupTotalAmount;
+    }
+
+    public CurrencyType getSetupTotalAmountCurrencyType() {
+        return setupTotalAmountCurrencyType;
+    }
+
+    public void setSetupTotalAmountCurrencyType(CurrencyType setupTotalAmountCurrencyType) {
+        this.setupTotalAmountCurrencyType = setupTotalAmountCurrencyType;
+    }
+
+    public MerchantTransferTax getTax() {
+        return tax;
+    }
+
+    public void setTax(MerchantTransferTax tax) {
+        this.tax = tax;
+    }
+
+    public Long getMerchantTransferExchangeId() {
+        return merchantTransferExchangeId;
+    }
+
+    public void setMerchantTransferExchangeId(Long merchantTransferExchangeId) {
+        this.merchantTransferExchangeId = merchantTransferExchangeId;
+    }
+
+    public Long getTaxId() {
+        return taxId;
+    }
+
+    public void setTaxId(Long taxId) {
+        this.taxId = taxId;
+    }
+
     public boolean getIsEncoded() {
         return isEncoded;
     }
@@ -114,5 +200,36 @@ public class MerchantTransferTransaction {
     public void setIsEncoded(boolean encoded) {
         isEncoded = encoded;
     }
+
+
+    @Override
+    public String toString() {
+        return "MerchantTransferTransaction{" +
+//                "id=" + id +
+//                ", transferTicketId=" + transferTicketId +
+
+//                ", tsmCompany=" + tsmCompany +
+//                ", tsmCompanyId=" + tsmCompanyId +
+                ", walletId=" + walletId +
+                ", walletSetupId=" + walletSetupId +
+//                ", actionDate=" + actionDate +
+                ", transferAmount=" + transferAmount +
+                ", transferAmountCurrencyType=" + transferAmountCurrencyType +
+
+                ", walletTotalPrice=" + walletTotalPrice +
+                ", walletTotalPriceCurrencyType=" + walletTotalPriceCurrencyType +
+
+                ", setupTotalAmount=" + setupTotalAmount +
+                ", setupTotalAmountCurrencyType=" + setupTotalAmountCurrencyType +
+
+                ", tax=" + tax +
+                ", merchantTransferExchangeId=" + merchantTransferExchangeId +
+                ", taxId=" + taxId +
+                ", isEncoded=" + isEncoded +
+                ", merchantTransferExchange=" + merchantTransferExchange +
+                ", transferTicket=" + transferTicket +
+                '}';
+    }
+
 
 }
