@@ -68,11 +68,11 @@ public class MerchantTransferDemo {
 
         if (transferCurrencyTypeId == setupCurrencyTypeId) {
             if (transferCurrencyTypeId == walletCurrencyTypeId) {
-                System.out.println("equalCurrencyTransfer");
-                TransactionCurrencyEqual.equalCurrencyTransfer(transaction, null, currentDate, wallet, walletSetup, transferAmount);
+                System.out.println("equalCurrencyReceiver");
+                TransactionCurrencyEqual.equalCurrencyReceiver(transaction, null, currentDate, wallet, walletSetup, transferAmount);
             } else {
-                System.out.println("otherWalletCurrencyTransfer");
-                TransactionCurrencyOther.otherWalletCurrencyTransfer(transaction, null, currentDate, selectedExchangeRate, wallet, walletSetup, transferAmount);
+                System.out.println("otherWalletCurrencyReceiver");
+                TransactionCurrencyOther.otherWalletCurrencyReceiver(transaction, null, currentDate, selectedExchangeRate, wallet, walletSetup, transferAmount);
             }
         } else {
             throw new PermissionDeniedException("Inappropriate currency types, Partition and User used currency types not matched");

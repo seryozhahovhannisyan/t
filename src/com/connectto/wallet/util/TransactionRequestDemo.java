@@ -124,10 +124,10 @@ public class TransactionRequestDemo {
 
             if (productCurrencyTypeId == toCurrencyTypeId) {
                 System.out.println("equalCurrencyReceiver");
-                TransactionCurrencyEqual.equalCurrencyReceiver(transaction, toWallet, walletSetup, productAmount);
+                TransactionCurrencyEqual.equalCurrencyReceiver(transaction, null, null, toWallet, walletSetup, productAmount);
             } else {
                 System.out.println("otherWalletCurrencyReceiver");
-                TransactionCurrencyOther.otherWalletCurrencyReceiver(transaction, selectedExchangeRate, toWallet, walletSetup, productAmount);
+                TransactionCurrencyOther.otherWalletCurrencyReceiver(transaction,null, null, selectedExchangeRate, toWallet, walletSetup, productAmount);
             }
 
         } else {

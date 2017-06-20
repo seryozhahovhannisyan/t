@@ -61,9 +61,9 @@ public class TransactionSendMoneyDemo {
     }
 
 
-    protected static TransactionSendMoney createTransaction( ExchangeRate selectedExchangeRate,
-            Double productAmount, CurrencyType productCurrencyType,
-            Wallet fromWallet, Wallet toWallet, WalletSetup walletSetup
+    protected static TransactionSendMoney createTransaction(ExchangeRate selectedExchangeRate,
+                                                            Double productAmount, CurrencyType productCurrencyType,
+                                                            Wallet fromWallet, Wallet toWallet, WalletSetup walletSetup
     ) throws InternalErrorException, PermissionDeniedException, UnsupportedCurrencyException {
 
         //<editor-fold desc="initBlock">
@@ -125,10 +125,10 @@ public class TransactionSendMoneyDemo {
 
             if (productCurrencyTypeId == toCurrencyTypeId) {
                 System.out.println("equalCurrencyReceiver");
-                TransactionCurrencyEqual.equalCurrencyReceiver(transaction, toWallet, walletSetup, productAmount);
+                TransactionCurrencyEqual.equalCurrencyReceiver(transaction, null, null, toWallet, walletSetup, productAmount);
             } else {
                 System.out.println("otherWalletCurrencyReceiver");
-                TransactionCurrencyOther.otherWalletCurrencyReceiver(transaction, selectedExchangeRate, toWallet, walletSetup, productAmount);
+                TransactionCurrencyOther.otherWalletCurrencyReceiver(transaction, null, null, selectedExchangeRate, toWallet, walletSetup, productAmount);
             }
 
         } else {
@@ -162,7 +162,7 @@ public class TransactionSendMoneyDemo {
                     Double rateAmount = rate.getBuy();
                     Double amount = productAmount / rateAmount;
                     System.out.println("unknownCurrencyReceiver");
-                    TransactionCurrencyUnknown.unknownCurrencyReceiver(transaction,  selectedExchangeRate, toWallet, walletSetup, amount, productAmount, productCurrencyType, rate);
+                    TransactionCurrencyUnknown.unknownCurrencyReceiver(transaction, selectedExchangeRate, toWallet, walletSetup, amount, productAmount, productCurrencyType, rate);
                 }
             }
         }

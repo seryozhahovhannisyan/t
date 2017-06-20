@@ -2,6 +2,7 @@ package com.connectto.wallet.util.currency;
 
 import com.connectto.general.exception.InternalErrorException;
 import com.connectto.general.model.WalletSetup;
+import com.connectto.wallet.model.transaction.merchant.deposit.*;
 import com.connectto.wallet.model.transaction.merchant.transfer.MerchantTransferExchange;
 import com.connectto.wallet.model.transaction.merchant.transfer.MerchantTransferExchangeTax;
 import com.connectto.wallet.model.transaction.merchant.transfer.MerchantTransferTax;
@@ -65,7 +66,7 @@ public class TransactionCurrencyOther {
         Double totalPrice = price + totalTaxPrice;
 //
         if (TransactionPurchase.class.isInstance(transaction)) {
-            otherWalletCurrency(
+            otherWalletCurrencyTransfer(
                     (TransactionPurchase) transaction, transactionState, currentDate, selectedExchangeRate,
                     walletId, setupId,
                     walletCurrencyType, setupCurrencyType,
@@ -74,23 +75,7 @@ public class TransactionCurrencyOther {
                     amount, price,
                     totalAmount, totalPrice
             );
-        } else if (MerchantTransferTransaction.class.isInstance(transaction)) {
-            otherWalletCurrency(
-                    (MerchantTransferTransaction) transaction, currentDate, selectedExchangeRate,
-                    walletId, setupId,
-                    walletCurrencyType, setupCurrencyType,
-                    exchange, exchangePrice, exchangeType,
-                    amount, price
-            );
-        } else if (TransferTransaction.class.isInstance(transaction)) {
-            otherWalletCurrency(
-                    (TransferTransaction) transaction, currentDate, selectedExchangeRate,
-                    walletId, setupId,
-                    walletCurrencyType, setupCurrencyType,
-                    exchange, exchangePrice, exchangeType,
-                    amount, price
-            );
-        } else if (TransactionSendMoney.class.isInstance(transaction)) {
+        }  else if (TransactionSendMoney.class.isInstance(transaction)) {
             otherWalletCurrencyTransfer(
                     (TransactionSendMoney) transaction, selectedExchangeRate,
                     walletId, setupId,
@@ -114,6 +99,8 @@ public class TransactionCurrencyOther {
     }
 
     public static <T> void otherWalletCurrencyReceiver(T transaction,
+                                                       TransactionState transactionState,
+                                                       Date currentDate,
                                                        ExchangeRate selectedExchangeRate,
                                                        Wallet wallet,
                                                        WalletSetup walletSetup,
@@ -169,11 +156,43 @@ public class TransactionCurrencyOther {
                     amount, price,
                     totalAmount, totalPrice
             );
+        } else if (TransactionDeposit.class.isInstance(transaction)) {
+
+            Map<String, Object> depositTaxTypeMap = TaxCalculator.calculateDepositTax(walletSetup, amount);//100
+            TransactionTaxType depositTaxType = (TransactionTaxType) depositTaxTypeMap.get(Constant.TAX_TYPE_KEY);
+            Double depositTaxAmount = (Double) depositTaxTypeMap.get(Constant.TAX_KEY);
+            Double depositTaxPrice = depositTaxAmount * rateAmount;//3 USD
+
+            otherWalletCurrencyReceiver(
+                    (TransactionDeposit) transaction, currentDate, transactionState, selectedExchangeRate,
+                    walletId, setupId,
+                    walletCurrencyType, setupCurrencyType,
+                    processTax, processTaxPrice, processTaxType,
+                    depositTaxAmount, depositTaxPrice, depositTaxType,
+                    exchange, exchangePrice, exchangeType,
+                    amount, price
+            );
+        } else if (MerchantTransferTransaction.class.isInstance(transaction)) {
+            otherWalletCurrencyReceiver(
+                    (MerchantTransferTransaction) transaction, currentDate, selectedExchangeRate,
+                    walletId, setupId,
+                    walletCurrencyType, setupCurrencyType,
+                    exchange, exchangePrice, exchangeType,
+                    amount, price
+            );
+        } else if (TransferTransaction.class.isInstance(transaction)) {
+            otherWalletCurrencyReceiver(
+                    (TransferTransaction) transaction, currentDate, selectedExchangeRate,
+                    walletId, setupId,
+                    walletCurrencyType, setupCurrencyType,
+                    exchange, exchangePrice, exchangeType,
+                    amount, price
+            );
         }
     }
 
 
-    private static void otherWalletCurrency(
+    private static void otherWalletCurrencyTransfer(
             TransactionPurchase transactionPurchase, TransactionState transactionState, Date currentDate, ExchangeRate selectedExchangeRate,
             Long walletId, Long setupId,
             CurrencyType walletCurrencyType, CurrencyType setupCurrencyType,
@@ -217,7 +236,72 @@ public class TransactionCurrencyOther {
     }
 
 
-    private static void otherWalletCurrency(
+    private static void otherWalletCurrencyReceiver(
+            TransactionDeposit transactionDeposit, Date currentDate, TransactionState transactionState, ExchangeRate selectedExchangeRate,
+            Long walletId, Long setupId,
+            CurrencyType walletCurrencyType, CurrencyType setupCurrencyType,
+            Double receiverProcessTaxAmount, Double receiverProcessTaxPrice, TransactionTaxType receiverProcessTaxType,
+            Double depositTaxAmount, Double depositTaxPrice,  TransactionTaxType depositTaxType ,
+            Double exchangeDepositTaxAmount, Double exchangeDepositTaxPrice, TransactionTaxType exchangeDepositTaxType,
+            Double depositAmount, Double transferPrice
+    ) throws InternalErrorException {
+
+        Double rateAmount = selectedExchangeRate.getBuy();
+        Long rateId = selectedExchangeRate.getId();
+
+        MerchantDeposit merchantDeposit = transactionDeposit.getMerchantDeposit();
+        MerchantDepositTax merchantDepositTax = merchantDeposit.getMerchantDepositTax();
+
+
+        Double merchantDepositTaxAmount = merchantDepositTax.getDepositTax();
+        Double rate = selectedExchangeRate.getBuy();
+        CurrencyType rateCurrencyType = selectedExchangeRate.getToCurrency();
+        Double merchantDepositTaxPrice = merchantDepositTaxAmount * rate;
+
+        TransactionDepositExchange merchantDepositTaxExchange = new TransactionDepositExchange(walletId, setupId, rateId, currentDate, merchantDepositTaxAmount, setupCurrencyType, rate, rateCurrencyType, merchantDepositTaxPrice, rateCurrencyType);
+        merchantDepositTax.setExchange(merchantDepositTaxExchange);
+
+
+        Double depositPrice = depositAmount * rateAmount;//48000AMD
+
+        TransactionDepositExchange depositExchange = new TransactionDepositExchange(walletId, setupId, rateId, currentDate, depositAmount, setupCurrencyType, rateAmount, walletCurrencyType, depositPrice, walletCurrencyType);
+
+        TransactionDepositExchange receiverProcessExchange = new TransactionDepositExchange(walletId, setupId, rateId, currentDate, receiverProcessTaxAmount, setupCurrencyType, rateAmount, walletCurrencyType, receiverProcessTaxPrice, walletCurrencyType);
+        TransactionDepositProcessTax receiverProcessTax = new TransactionDepositProcessTax(currentDate, walletId, setupId, receiverProcessTaxAmount, setupCurrencyType, receiverProcessTaxPrice, walletCurrencyType, receiverProcessTaxType, receiverProcessExchange);
+
+        TransactionDepositExchange depositTaxExchange = new TransactionDepositExchange(walletId, setupId, rateId, currentDate, depositTaxAmount, setupCurrencyType, rateAmount, walletCurrencyType, depositTaxPrice, walletCurrencyType);
+        WalletSetupDepositTax setupDepositTax = new WalletSetupDepositTax(currentDate, walletId, setupId, depositTaxAmount, setupCurrencyType, depositTaxPrice, walletCurrencyType, depositTaxType, depositTaxExchange);
+
+        TransactionDepositExchangeTax exchangeDepositTax = new TransactionDepositExchangeTax(currentDate, walletId, setupId, exchangeDepositTaxAmount, setupCurrencyType, exchangeDepositTaxPrice, walletCurrencyType, exchangeDepositTaxType);
+        TransactionDepositExchange exchangeDeposit = new TransactionDepositExchange(walletId, setupId, rateId, currentDate, exchangeDepositTaxAmount, setupCurrencyType, rateAmount, walletCurrencyType, exchangeDepositTaxPrice, walletCurrencyType, exchangeDepositTax);
+
+        Double setupTotalProcess = receiverProcessTaxAmount + depositTaxAmount;//2+3
+        Double setupTotalAmount = setupTotalProcess + exchangeDepositTaxAmount;//5+4
+        Double totalTaxAmount = merchantDepositTaxAmount + setupTotalAmount;
+        Double totalTaxPrice = merchantDepositTaxPrice + receiverProcessTaxPrice + depositTaxPrice + exchangeDepositTaxPrice;
+
+        Double walletTotalAmount = depositAmount + totalTaxAmount;
+        Double walletTotalPrice = depositPrice + totalTaxPrice;
+
+        TransactionDepositTax depositTax = new TransactionDepositTax(currentDate, walletId, setupId, receiverProcessTax, setupDepositTax, merchantDepositTax, exchangeDepositTax);
+        TransactionDepositProcess depositProcess =
+                new TransactionDepositProcess(transactionState, currentDate, walletId, setupId,
+                        depositAmount, setupCurrencyType,
+                        depositPrice, walletTotalPrice, walletCurrencyType,
+                        depositAmount, setupTotalProcess, setupCurrencyType,
+                        receiverProcessTax, setupDepositTax, exchangeDeposit);
+
+        transactionDeposit.setProcessStart(depositProcess);
+        transactionDeposit.setWalletTotalPrice(walletTotalPrice);
+        transactionDeposit.setWalletTotalPriceCurrencyType(walletCurrencyType);
+
+        transactionDeposit.setSetupTotalAmount(setupTotalAmount);
+        transactionDeposit.setSetupTotalAmountCurrencyType(setupCurrencyType);
+        transactionDeposit.setTax(depositTax);
+    }
+
+
+    private static void otherWalletCurrencyReceiver(
             MerchantTransferTransaction transfer, Date currentDate, ExchangeRate selectedExchangeRate,
             Long walletId, Long setupId,
             CurrencyType walletCurrencyType, CurrencyType setupCurrencyType,
@@ -250,7 +334,7 @@ public class TransactionCurrencyOther {
     }
 
 
-    private static void otherWalletCurrency(
+    private static void otherWalletCurrencyReceiver(
             TransferTransaction transfer, Date currentDate, ExchangeRate selectedExchangeRate,
             Long walletId, Long setupId,
             CurrencyType walletCurrencyType, CurrencyType setupCurrencyType,

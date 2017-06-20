@@ -88,4 +88,46 @@ public class TaxCalculator {
         map.put(Constant.TAX_KEY, receiverExchangeFee);
         return map;
     }
+
+
+    public static  Map<String, Object> calculateDepositTax(WalletSetup walletSetup, Double amount) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        Double fee = 0d;
+        Double percentAmount = walletSetup.getMerchantDepositFeePercent() * amount / 100;
+
+        if (percentAmount < walletSetup.getMerchantDepositMinFee()) {
+            fee = walletSetup.getMerchantDepositMinFee();
+            map.put(Constant.TAX_TYPE_KEY, TransactionTaxType.MIN);
+        } else if (percentAmount > walletSetup.getMerchantDepositMaxFee()) {
+            fee = walletSetup.getMerchantDepositMaxFee();
+            map.put(Constant.TAX_TYPE_KEY, TransactionTaxType.MAX);
+        } else {
+            fee = percentAmount;
+            map.put(Constant.TAX_TYPE_KEY, TransactionTaxType.PERCENT);
+        }
+        map.put(Constant.TAX_KEY, fee);
+        return map;
+    }
+
+
+
+    public static  Map<String, Object> calculateWithdrawTax(WalletSetup walletSetup, Double amount) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        Double fee = 0d;
+        Double percentAmount = walletSetup.getMerchantWithdrawFeePercent() * amount / 100;
+
+        if (percentAmount < walletSetup.getMerchantWithdrawMinFee()) {
+            fee = walletSetup.getMerchantWithdrawMinFee();
+            map.put(Constant.TAX_TYPE_KEY, TransactionTaxType.MIN);
+        } else if (percentAmount > walletSetup.getMerchantWithdrawMaxFee()) {
+            fee = walletSetup.getMerchantWithdrawMaxFee();
+            map.put(Constant.TAX_TYPE_KEY, TransactionTaxType.MAX);
+        } else {
+            fee = percentAmount;
+            map.put(Constant.TAX_TYPE_KEY, TransactionTaxType.PERCENT);
+        }
+        map.put(Constant.TAX_KEY, fee);
+        return map;
+    }
+
 }
