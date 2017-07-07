@@ -91,5 +91,13 @@ public class MerchantDeposit {
     public void setMerchantDepositTaxId(Long merchantDepositTaxId) {
         this.merchantDepositTaxId = merchantDepositTaxId;
     }
+
+    @Override
+    public String toString() {
+        return "MerchantDeposit{" +
+                ", merchantDepositTax=" + merchantDepositTax +
+//                ", merchantDepositTaxId=" + merchantDepositTaxId +
+                '}';
+    }
 }
 

@@ -2,6 +2,7 @@ package com.connectto.wallet.util.currency;
 
 import com.connectto.general.exception.InternalErrorException;
 import com.connectto.general.model.WalletSetup;
+import com.connectto.general.util.Utils;
 import com.connectto.wallet.model.transaction.merchant.deposit.*;
 import com.connectto.wallet.model.transaction.merchant.transfer.MerchantTransferTax;
 import com.connectto.wallet.model.transaction.merchant.transfer.MerchantTransferTransaction;
@@ -87,6 +88,7 @@ public class TransactionCurrencyEqual {
                                                  WalletSetup walletSetup,
                                                  Double amount
     ) throws InternalErrorException {
+
         Long toWalletId = wallet.getId();
         Long setupId = walletSetup.getId();
         CurrencyType currencyType = walletSetup.getCurrencyType();
@@ -104,16 +106,7 @@ public class TransactionCurrencyEqual {
             equalCurrencyReceiver((TransactionSendMoney) transaction, toWalletId, setupId, currencyType, tax, taxType, amount, totalAmount);
         } else if (TransactionRequest.class.isInstance(transaction)) {
             equalCurrencyReceiver((TransactionRequest) transaction, toWalletId, setupId, currencyType, tax, taxType, amount, totalAmount);
-        } else if (TransactionDeposit.class.isInstance(transaction)) {
-
-            Map<String, Object> depositTaxTypeMap = TaxCalculator.calculateDepositTax(walletSetup, amount);
-            Double depositTaxAmount = (Double) depositTaxTypeMap.get(Constant.TAX_KEY);
-            TransactionTaxType depositTaxType = (TransactionTaxType) depositTaxTypeMap.get(Constant.TAX_TYPE_KEY);
-
-            equalCurrencyReceiver((TransactionDeposit) transaction, currentDate, transactionState, toWalletId, setupId, currencyType, tax, taxType, depositTaxAmount, depositTaxType, amount);
-        } else if (MerchantTransferTransaction.class.isInstance(transaction)) {
-            equalCurrencyReceiver((MerchantTransferTransaction) transaction, currentDate, toWalletId, setupId, amount, currencyType);
-        }  else if (TransferTransaction.class.isInstance(transaction)) {
+        } else if (TransferTransaction.class.isInstance(transaction)) {
             equalCurrencyReceiver((TransferTransaction) transaction, currentDate, toWalletId, setupId, amount, currencyType);
         }
     }
@@ -136,48 +129,6 @@ public class TransactionCurrencyEqual {
         transactionPurchase.setSetupTotalAmount(totalAmount);
         transactionPurchase.setSetupTotalAmountCurrencyType(currencyType);
         transactionPurchase.setTax(purchaseTax);
-    }
-
-    private static void equalCurrencyReceiver(TransactionDeposit transactionDeposit, Date currentDate, TransactionState transactionState,
-                                              Long walletId, Long setupId, CurrencyType currencyType,
-                                              Double tax, TransactionTaxType taxType,
-                                              Double depositTaxAmount, TransactionTaxType depositTaxType,
-                                              Double depositAmount) throws InternalErrorException {
-
-        MerchantDeposit merchantDeposit = transactionDeposit.getMerchantDeposit();
-        MerchantDepositTax merchantDepositTax = merchantDeposit.getMerchantDepositTax();
-
-
-        Double walletTotalAmount = depositAmount + depositTaxAmount + tax;
-        Double setupTotalAmount = depositTaxAmount + tax;
-
-        TransactionDepositProcessTax processTax = new TransactionDepositProcessTax(currentDate, walletId, setupId, tax, currencyType, taxType);
-        WalletSetupDepositTax setupDepositTax = new WalletSetupDepositTax(currentDate, walletId, setupId, depositTaxAmount, currencyType, depositTaxType);
-
-        TransactionDepositTax depositTax = new TransactionDepositTax(currentDate, walletId, setupId, processTax, setupDepositTax, merchantDepositTax);
-        TransactionDepositProcess depositProcess = new TransactionDepositProcess(transactionState, currentDate, walletId, setupId, depositAmount, currencyType, processTax, setupDepositTax);
-
-        transactionDeposit.setProcessStart(depositProcess);
-        transactionDeposit.setWalletTotalPrice(walletTotalAmount);
-        transactionDeposit.setWalletTotalPriceCurrencyType(currencyType);
-
-        transactionDeposit.setSetupTotalAmount(setupTotalAmount);
-        transactionDeposit.setSetupTotalAmountCurrencyType(currencyType);
-        transactionDeposit.setTax(depositTax);
-    }
-
-    private static void equalCurrencyReceiver(MerchantTransferTransaction merchantTransferTransaction, Date currentDate,
-                                              Long walletId, Long setupId,
-                                              Double totalAmount, CurrencyType currencyType) throws InternalErrorException {
-
-        MerchantTransferTax merchantTransferTax = new MerchantTransferTax(currentDate, walletId, setupId);
-
-        merchantTransferTransaction.setWalletTotalPrice(totalAmount);
-        merchantTransferTransaction.setWalletTotalPriceCurrencyType(currencyType);
-
-        merchantTransferTransaction.setSetupTotalAmount(0d);
-        merchantTransferTransaction.setSetupTotalAmountCurrencyType(currencyType);
-        merchantTransferTransaction.setTax(merchantTransferTax);
     }
 
 

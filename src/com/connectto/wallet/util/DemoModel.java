@@ -30,7 +30,7 @@ public class DemoModel {
 
     public static synchronized Wallet initWallet(CurrencyType currencyType, String userId) {
         Wallet wallet = new Wallet();
-        wallet.setId(100l +Long.parseLong(userId));
+        wallet.setId(100l + Long.parseLong(userId));
         wallet.setUserId(Long.parseLong(userId));
         wallet.setMoney(1000000d);
         wallet.setFrozenAmount(0d);
@@ -40,7 +40,7 @@ public class DemoModel {
     }
 
     public static synchronized Wallet initWallet(CurrencyType currencyType) {
-        return initWallet(currencyType,"1");
+        return initWallet(currencyType, "1");
     }
 
     public static synchronized WalletSetup initWalletSetup(CurrencyType currencyType, int partitionId) {
@@ -67,6 +67,16 @@ public class DemoModel {
         walletSetup.setExchangeReceiverMinFee(2d);
         walletSetup.setExchangeReceiverMaxFee(1000000000d);
         walletSetup.setExchangeReceiverFeePercent(13d);
+
+        //merchant
+
+        walletSetup.setMerchantDepositMinFee(1d);
+        walletSetup.setMerchantDepositMaxFee(1000000000d);
+        walletSetup.setMerchantDepositFeePercent(14d);
+
+        walletSetup.setMerchantWithdrawMinFee(1d);
+        walletSetup.setMerchantWithdrawMaxFee(1000000000d);
+        walletSetup.setMerchantWithdrawFeePercent(15d);
 
         return walletSetup;
     }
@@ -110,7 +120,6 @@ public class DemoModel {
         rate.setId(452149L);
         return rate;
     }
-
 
 
 }

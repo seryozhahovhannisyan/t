@@ -254,4 +254,24 @@ public class TransactionDepositProcess {
     public void setExchangeId(Long exchangeId) {
         this.exchangeId = exchangeId;
     }
+
+    @Override
+    public String toString() {
+        return "TransactionDepositProcess{" +
+                ", depositAmount=" + depositAmount +
+                ", depositAmountCurrencyType=" + depositAmountCurrencyType +
+                ", walletDepositPrice=" + walletDepositPrice +
+                ", walletTotalPrice=" + walletTotalPrice +
+                ", walletTotalPriceCurrencyType=" + walletTotalPriceCurrencyType +
+                ", setupDepositPrice=" + setupDepositPrice +
+                ", setupTotalPrice=" + setupTotalPrice +
+                ", setupTotalPriceCurrencyType=" + setupTotalPriceCurrencyType +
+                ", processTax=" + processTax +
+                ", setupDepositTax=" + setupDepositTax +
+                ", exchange=" + exchange +
+                ", processTaxId=" + processTaxId +
+                ", setupDepositTaxId=" + setupDepositTaxId +
+                ", exchangeId=" + exchangeId +
+                '}';
+    }
 }

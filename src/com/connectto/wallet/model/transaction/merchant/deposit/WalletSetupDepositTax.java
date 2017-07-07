@@ -177,4 +177,23 @@ public class WalletSetupDepositTax {
     public void setExchangeId(Long exchangeId) {
         this.exchangeId = exchangeId;
     }
+
+    @Override
+    public String toString() {
+        return "WalletSetupDepositTax{" +
+                "id=" + id +
+                ", actionDate=" + actionDate +
+                ", walletId=" + walletId +
+                ", setupId=" + setupId +
+                ", depositTax=" + depositTax +
+                ", depositTaxTotal=" + depositTaxTotal +
+                ", depositTaxCurrencyType=" + depositTaxCurrencyType +
+                ", depositTaxPrice=" + depositTaxPrice +
+                ", depositTaxPriceTotal=" + depositTaxPriceTotal +
+                ", depositTaxPriceCurrencyType=" + depositTaxPriceCurrencyType +
+                ", depositTaxType=" + depositTaxType +
+                ", exchange=" + exchange +
+                ", exchangeId=" + exchangeId +
+                '}';
+    }
 }

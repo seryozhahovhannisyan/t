@@ -247,4 +247,23 @@ public class TransactionDeposit {
     public void setOrderCode(String orderCode) {
         this.orderCode = orderCode;
     }
+
+    @Override
+    public String toString() {
+        return "TransactionDeposit{" +
+
+                ", depositAmount=" + depositAmount +
+                ", depositAmountCurrencyType=" + depositAmountCurrencyType +
+                ", depositMerchantTotalTax=" + depositMerchantTotalTax +
+                ", depositMerchantTotalTaxCurrencyType=" + depositMerchantTotalTaxCurrencyType +
+                ", walletTotalPrice=" + walletTotalPrice +
+                ", walletTotalPriceCurrencyType=" + walletTotalPriceCurrencyType +
+                ", setupTotalAmount=" + setupTotalAmount +
+                ", setupTotalAmountCurrencyType=" + setupTotalAmountCurrencyType +
+                ", processStart=" + processStart +
+                ", processEnd=" + processEnd +
+                ", tax=" + tax +
+                ", merchantDeposit=" + merchantDeposit +
+                '}';
+    }
 }

@@ -201,4 +201,25 @@ public class TransactionDepositTax {
     public void setIsPaid(boolean paid) {
         isPaid = paid;
     }
+
+    @Override
+    public String toString() {
+        return "TransactionDepositTax{" +
+                "id=" + id +
+                ", actionDate=" + actionDate +
+                ", walletId=" + walletId +
+                ", setupId=" + setupId +
+                ", totalTax=" + totalTax +
+                ", totalTaxPrice=" + totalTaxPrice +
+                ", processTax=" + processTax +
+                ", exchangeTax=" + exchangeTax +
+                ", setupDepositTax=" + setupDepositTax +
+                ", merchantDepositTax=" + merchantDepositTax +
+                ", processTaxId=" + processTaxId +
+                ", exchangeTaxId=" + exchangeTaxId +
+                ", setupDepositTaxId=" + setupDepositTaxId +
+                ", merchantDepositTaxId=" + merchantDepositTaxId +
+                ", isPaid=" + isPaid +
+                '}';
+    }
 }

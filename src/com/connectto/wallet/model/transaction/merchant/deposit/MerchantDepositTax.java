@@ -218,20 +218,22 @@ public class MerchantDepositTax {
     public String toString() {
         return "MerchantDepositTax{" +
                 "id=" + id +
-                ", actionDate=" + actionDate +
-                ", walletId=" + walletId +
-                ", setupId=" + setupId +
+//                ", actionDate=" + actionDate +
+//                ", walletId=" + walletId +
+//                ", setupId=" + setupId +
                 ", paidTaxToMerchant=" + paidTaxToMerchant +
                 ", paidTaxCurrencyType=" + paidTaxCurrencyType +
+
                 ", depositTax=" + depositTax +
                 ", depositTaxTotal=" + depositTaxTotal +
                 ", depositTaxCurrencyType=" + depositTaxCurrencyType +
+
                 ", depositTaxPrice=" + depositTaxPrice +
                 ", depositTaxPriceTotal=" + depositTaxPriceTotal +
                 ", depositTaxPriceCurrencyType=" + depositTaxPriceCurrencyType +
+
                 ", depositTaxType=" + depositTaxType +
                 ", exchange=" + exchange +
-                ", exchangeId=" + exchangeId +
                 '}';
     }
 }

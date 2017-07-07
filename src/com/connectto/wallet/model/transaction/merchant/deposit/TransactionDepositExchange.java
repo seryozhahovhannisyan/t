@@ -211,4 +211,25 @@ public class TransactionDepositExchange {
     public void setWalletBoughtAmountCurrencyType(CurrencyType walletBoughtAmountCurrencyType) {
         this.walletBoughtAmountCurrencyType = walletBoughtAmountCurrencyType;
     }
+
+    @Override
+    public String toString() {
+        return "TransactionDepositExchange{" +
+                "id=" + id +
+                ", walletId=" + walletId +
+                ", setupId=" + setupId +
+                ", rateId=" + rateId +
+                ", exchangeDate=" + exchangeDate +
+                ", setupAmount=" + setupAmount +
+                ", setupCurrencyType=" + setupCurrencyType +
+                ", rate=" + rate +
+                ", rateCurrencyType=" + rateCurrencyType +
+                ", walletBoughtAmount=" + walletBoughtAmount +
+                ", walletBoughtAmountCurrencyType=" + walletBoughtAmountCurrencyType +
+                ", walletPaidAmount=" + walletPaidAmount +
+                ", walletPaidCurrencyType=" + walletPaidCurrencyType +
+                ", exchangeTax=" + exchangeTax +
+                ", exchangeTaxId=" + exchangeTaxId +
+                '}';
+    }
 }

@@ -181,4 +181,19 @@ public class TransactionDepositProcessTax {
     public void setExchangeId(Long exchangeId) {
         this.exchangeId = exchangeId;
     }
+
+    @Override
+    public String toString() {
+        return "TransactionDepositProcessTax{" +
+                ", processTax=" + processTax +
+                ", processTaxTotal=" + processTaxTotal +
+                ", processTaxCurrencyType=" + processTaxCurrencyType +
+                ", processTaxPrice=" + processTaxPrice +
+                ", processTaxPriceTotal=" + processTaxPriceTotal +
+                ", processTaxPriceCurrencyType=" + processTaxPriceCurrencyType +
+                ", processTaxType=" + processTaxType +
+                ", exchange=" + exchange +
+                ", exchangeId=" + exchangeId +
+                '}';
+    }
 }
